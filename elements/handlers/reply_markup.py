@@ -83,22 +83,23 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(InputData.kind)
 async def input_kind(message: types.Message, state: FSMContext):
+    await message.answer('input kind:')
     await state.update_data(kind=message.text)
     # add date validator
     await state.set_state(InputData.category)
-    await message.answer('input category:')
 
 
 @router.message(InputData.category)
 async def input_category(message: types.Message, state: FSMContext):
+    await message.answer('input category:')
     await state.update_data(category=message.text)
     # add date validator
     await state.set_state(InputData.value)
-    await message.answer('input value:')
 
 
 @router.message(InputData.value)
 async def input_value(message: types.Message, state: FSMContext):
+    await message.answer('input value:')
     await state.update_data(value=message.text)
     # add date validator
 
