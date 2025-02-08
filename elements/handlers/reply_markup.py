@@ -68,7 +68,7 @@ async def input_end_value(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
 
     data = await state.get_data()
-    message.answer(data['date'])
+    await message.answer(data['date'])
 
 # ________________________________________________________________
 @router.message(F.text.lower() == '/вывод')
