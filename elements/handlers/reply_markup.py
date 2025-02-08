@@ -61,10 +61,12 @@ async def input(message: types.Message):
 
 
 @router.callback_query(F.data == 'сегодня')
-async def today_date(callback: types.CallbackQuery, state: FSMContext):
+async def today_date(callback: types.CallbackQuery, state: FSMContext, message: types.Message,):
     await state.set_state(InputData.date)
     await state.update_data(date='today')
-    await input_kind(state)
+
+    await state.set_state(InputData.kind)
+    await message.answer('input kind:')
 
 
 @router.callback_query(F.data == 'дата')
