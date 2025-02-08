@@ -70,7 +70,6 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
 async def input_date(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
     # add date validator
-    await state.set_state(InputData.kind)
 
 
 
@@ -79,11 +78,10 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     await state.update_data(date='today')
 
-    await state.set_state(InputData.kind)
-
 
 @router.message(InputData.kind)
 async def input_kind(message: types.Message, state: FSMContext):
+    await state.set_state(InputData.kind)
     builder = InlineKeyboardBuilder()
 
     builder.row(
@@ -102,7 +100,8 @@ async def input_kind(message: types.Message, state: FSMContext):
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
 async def better_shares_result(callback: types.CallbackQuery, state: FSMContext):
-    await state.update_data(kind=F.text.split(SPLIT_SYM)[1])
+    await state.update_data(kind=F.data)
+    await print(F.data)
     # add date validator
     await state.set_state(InputData.category)
     await callback.message.answer('input category:')
