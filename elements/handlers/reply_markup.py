@@ -98,11 +98,11 @@ async def input_kind(callback: types.CallbackQuery, state: FSMContext):
             callback_data='kind' + SPLIT_SYM + 'expenses'
         )
     )
-    await callback.message.answer('input kind: ', reply_markup=builder.as_markup())
+    return await callback.message.answer('input kind: ', reply_markup=builder.as_markup())
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
-async def input_kind(message: types.Message, state: FSMContext):
+async def input_kind(message: types.Message, state: FSMContext, callback: types.CallbackQuery):
     await state.update_data(kind=F.data(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
