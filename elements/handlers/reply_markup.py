@@ -85,6 +85,21 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(InputData.kind)
 async def input_kind(message: types.Message, state: FSMContext):
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='income',
+            callback_data='kind' + SPLIT_SYM + 'income'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='expenses',
+            callback_data='kind' + SPLIT_SYM + 'expenses'
+        )
+    )
+    await message.answer('Выберите: ', reply_markup=builder.as_markup())
     await state.update_data(kind=F.data(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
