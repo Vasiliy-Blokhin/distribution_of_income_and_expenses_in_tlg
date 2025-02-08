@@ -117,7 +117,6 @@ async def input_income(message: types.Message, state: FSMContext):
     await state.update_data(kind='income')
     # add date validator
     await state.set_state(InputData.category)
-    await message.answer('input category:')
 
 
 @router.callback_query(F.data == 'expenses')
@@ -125,11 +124,11 @@ async def input_expenses(message: types.Message, state: FSMContext):
     await state.update_data(kind='expenses')
     # add date validator
     await state.set_state(InputData.category)
-    await message.answer('input category:')
 
 
 @router.message(InputData.category)
 async def input_category(message: types.Message, state: FSMContext):
+    await message.answer('input category:')
     await state.update_data(category=message.text)
     # add date validator
     await state.set_state(InputData.value)
