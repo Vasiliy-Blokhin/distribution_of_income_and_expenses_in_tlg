@@ -10,7 +10,7 @@ from aiogram.fsm.context import FSMContext
 from elements.message_builder import (
     start_message,
 )
-
+from source.settings.settings import SPLIT_SYM
 
 router = Router()
 
@@ -48,22 +48,45 @@ async def input(message: types.Message):
     builder.row(
         types.InlineKeyboardButton(
             text='Сегодня',
-            callback_data='сегодня'
+            callback_data='date' + SPLIT_SYM + 'today'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Ввести вручную',
-            callback_data='дата'
+            callback_data='date' + SPLIT_SYM + 'date'
         )
     )
     await message.answer('Выберите: ', reply_markup=builder.as_markup())
 
 
-@router.callback_query(F.data == 'дата')
+
+@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
 async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
-    await callback.message.answer('input data:')
+    if callback.data.split(SPLIT_SYM)[1] == 'date':
+        await callback.message.answer('input data:')
+    else:
+        await state.update_data(date='today')
+        await callback.message.answer('input kind: ', reply_markup=kind_builder().as_markup())
+
+
+def kind_builder() -> InlineKeyboardBuilder:
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='income',
+            callback_data='kind' + SPLIT_SYM + 'income'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='expenses',
+            callback_data='kind' + SPLIT_SYM + 'expenses'
+        )
+    )
+    return builder
 
 
 @router.message(InputData.date)
@@ -71,61 +94,15 @@ async def input_date(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
-    await state.set_state(InputData.kind)
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='income',
-            callback_data='income'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='expenses',
-            callback_data='expenses'
-        )
-    )
-    await message.answer('input kind: ', reply_markup=builder.as_markup())
+    await message.answer('input kind: ', reply_markup=kind_builder().as_markup())
 
 
-@router.callback_query(F.data == 'сегодня')
-async def today_date(callback: types.CallbackQuery, state: FSMContext):
-    await state.set_state(InputData.date)
-    await state.update_data(date='today')
-
-    await state.set_state(InputData.kind)
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='income',
-            callback_data='income'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='expenses',
-            callback_data='expenses'
-        )
-    )
-    await callback.message.answer('input kind: ', reply_markup=builder.as_markup())
-
-
-@router.callback_query(F.data == 'income')
-async def input_income(message: types.Message, state: FSMContext):
-    await state.update_data(kind=F.data)
+@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
+async def input_income(callback: types.CallbackQuery, state: FSMContext):
+    await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
-    await message.answer('input category:')
-
-
-@router.callback_query(F.data == 'expenses')
-async def input_expenses(message: types.Message, state: FSMContext):
-    await state.update_data(kind=F.data)
-    # add date validator
-    await state.set_state(InputData.category)
-    await message.answer('input category:')
+    await callback.message.answer('input category:')
 
 
 @router.message(InputData.category)
