@@ -14,7 +14,7 @@ magic-filter==1.0.12
 mccabe==0.7.0
 multidict==6.1.0
 propcache==0.2.1
-psycopg2==2.9.9
+psycopg2-binary==2.9.10
 pycodestyle==2.12.1
 pydantic==2.5.3
 pydantic_core==2.14.6
