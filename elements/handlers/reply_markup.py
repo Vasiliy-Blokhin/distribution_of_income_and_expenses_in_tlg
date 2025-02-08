@@ -87,6 +87,12 @@ async def input_date(message: types.Message, state: FSMContext):
     await state.set_state(InputData.value)
     await message.answer('input value:')
 
+@router.message(InputData.value)
+async def input_date(message: types.Message, state: FSMContext):
+    await state.update_data(value=message.text)
+    # add date validator
+
+
     data = state.get_data()
     await message.answer(f'{data["date"]} - {data["kind"]} - {data["category"]} - {data["value"]}')
 # ________________________________________________________________
