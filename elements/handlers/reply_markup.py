@@ -17,6 +17,9 @@ router = Router()
 
 class InputData(StatesGroup):
     date = State()
+    kind = State()
+    category = State()
+    value = State()
 
 
 @router.message(CommandStart())
@@ -64,12 +67,28 @@ async def param_shares_button(callback: types.CallbackQuery, state: FSMContext):
 
 
 @router.message(InputData.date)
-async def input_end_value(message: types.Message, state: FSMContext):
+async def input_date(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
+    # add date validator
+    await state.set_state(InputData.kind)
+    await message.answer('input kind:')
 
-    data = await state.get_data()
-    await message.answer(data['date'])
+@router.message(InputData.kind)
+async def input_date(message: types.Message, state: FSMContext):
+    await state.update_data(kind=message.text)
+    # add date validator
+    await state.set_state(InputData.category)
+    await message.answer('input category:')
 
+@router.message(InputData.category)
+async def input_date(message: types.Message, state: FSMContext):
+    await state.update_data(category=message.text)
+    # add date validator
+    await state.set_state(InputData.value)
+    await message.answer('input value:')
+
+    data = state.get_data()
+    await message.answer(f'{data["date"]} - {data["kind"]} - {data["category"]} - {data["value"]}')
 # ________________________________________________________________
 @router.message(F.text.lower() == '/вывод')
 async def output(message: types.Message):
