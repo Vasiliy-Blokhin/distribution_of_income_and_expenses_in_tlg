@@ -82,7 +82,7 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
 
 
 @router.message(InputData.kind)
-async def input_kind(callback: types.CallbackQuery, state: FSMContext):
+async def choose_kind(callback: types.CallbackQuery, state: FSMContext):
     builder = InlineKeyboardBuilder()
 
     builder.row(
