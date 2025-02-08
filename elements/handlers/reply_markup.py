@@ -82,27 +82,8 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
 
 
 @router.message(InputData.kind)
-async def choose_kind(callback: types.CallbackQuery, state: FSMContext):
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='income',
-            callback_data='kind' + SPLIT_SYM + 'income'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='expenses',
-            callback_data='kind' + SPLIT_SYM + 'expenses'
-        )
-    )
-    return await callback.message.answer('input variaty kind: ', reply_markup=builder.as_markup())
-
-
-@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
-async def input_kind(message: types.Message, state: FSMContext, callback: types.CallbackQuery):
-    await state.update_data(kind=F.data(SPLIT_SYM)[1])
+async def input_kind(message: types.Message, state: FSMContext):
+    await state.update_data(kind=message.text)
     # add date validator
     await state.set_state(InputData.category)
     await message.answer('input category:')
