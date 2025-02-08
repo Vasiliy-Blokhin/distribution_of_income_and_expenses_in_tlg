@@ -10,7 +10,7 @@ from aiogram.fsm.context import FSMContext
 from elements.message_builder import (
     start_message,
 )
-
+from source.settings.settings import SPLIT_SYM
 
 router = Router()
 
@@ -81,26 +81,29 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
 
     await state.set_state(InputData.kind)
 
+
+@router.message(InputData.kind)
+async def kind_buttons(callback: types.CallbackQuery, state: FSMContext):
     builder = InlineKeyboardBuilder()
 
     builder.row(
         types.InlineKeyboardButton(
             text='Cookies',
-            callback_data='cookies'
+            callback_data='kind' + SPLIT_SYM + 'income'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Not cookies',
-            callback_data='not_cookies'
+            callback_data='kind' + SPLIT_SYM + 'expenses'
         )
     )
     await callback.message.answer('input kind: ', reply_markup=builder.as_markup())
 
 
-@router.message(InputData.kind)
+@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
 async def input_kind(message: types.Message, state: FSMContext):
-    await state.update_data(kind=F.data)
+    await state.update_data(kind=F.data(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
     await message.answer('input category:')

@@ -45,3 +45,5 @@ DB_URL = (
     f'{db_connector}://{db_login}:{db_password}'
     f'@localhost:{db_port}/{db_name}'
 )
+
+SPLIT_SYM = '-'
