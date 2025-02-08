@@ -71,7 +71,6 @@ async def input_date(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
-    await message.answer('input kind:')
 
 
 @router.callback_query(F.data == 'сегодня')
@@ -80,7 +79,6 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(date='today')
 
     await state.set_state(InputData.kind)
-    await callback.message.answer('input kind:')
 
 
 @router.message(InputData.kind)
