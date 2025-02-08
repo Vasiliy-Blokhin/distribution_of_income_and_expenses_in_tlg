@@ -105,12 +105,43 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await callback.message.answer('input category:')
 
 
-@router.message(InputData.category)
-async def input_category(message: types.Message, state: FSMContext):
-    await state.update_data(category=message.text)
+def category_builder() -> InlineKeyboardBuilder:
+    builder = InlineKeyboardBuilder()
+
+    builder.add(
+        types.InlineKeyboardButton(
+            text='category1',
+            callback_data='category' + SPLIT_SYM + 'category1'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='category2',
+            callback_data='category' + SPLIT_SYM + 'category2'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='category3',
+            callback_data='category' + SPLIT_SYM + 'category3'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='category4',
+            callback_data='category' + SPLIT_SYM + 'category4'
+        )
+    )
+    builder.adjust(2)
+    return builder
+
+
+@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
+async def input_category(callback: types.CallbackQuery, state: FSMContext):
+    await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.value)
-    await message.answer('input value:')
+    await callback.message.answer('input value:')
 
 
 @router.message(InputData.value)
