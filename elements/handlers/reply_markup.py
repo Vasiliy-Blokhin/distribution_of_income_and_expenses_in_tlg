@@ -83,18 +83,18 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
 
 
 @router.message(InputData.kind)
-async def kind_buttons(callback: types.CallbackQuery, state: FSMContext):
+async def input_kind(callback: types.CallbackQuery, state: FSMContext):
     builder = InlineKeyboardBuilder()
 
     builder.row(
         types.InlineKeyboardButton(
-            text='Cookies',
+            text='income',
             callback_data='kind' + SPLIT_SYM + 'income'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
-            text='Not cookies',
+            text='expenses',
             callback_data='kind' + SPLIT_SYM + 'expenses'
         )
     )
