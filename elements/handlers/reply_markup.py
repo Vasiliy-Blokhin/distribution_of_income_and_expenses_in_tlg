@@ -100,7 +100,7 @@ async def input_kind(message: types.Message, state: FSMContext):
     )
     await message.answer('Выберите kind: ', reply_markup=builder.as_markup())
 
-@router.callback_query(F.text.split(SPLIT_SYM)[0] == 'kind')
+@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
 async def better_shares_result(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=F.text.split(SPLIT_SYM)[1])
     # add date validator
