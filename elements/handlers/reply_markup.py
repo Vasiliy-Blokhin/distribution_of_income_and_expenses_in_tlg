@@ -10,7 +10,7 @@ from aiogram.fsm.context import FSMContext
 from elements.message_builder import (
     start_message,
 )
-from source.settings.settings import SPLIT_SYM
+
 
 router = Router()
 
@@ -41,34 +41,46 @@ async def command_start_handler(message: Message) -> None:
 
 # ________________________________________________________________
 @router.message(Command('ввод'))
-async def input(message: types.Message, state: FSMContext):
+async def input(message: types.Message):
     """ Вывод сообщения - общей информации."""
     builder = InlineKeyboardBuilder()
 
     builder.row(
         types.InlineKeyboardButton(
             text='Сегодня',
-            callback_data='date' + SPLIT_SYM + 'today'
+            callback_data='сегодня'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Ввести вручную',
-            callback_data='date' + SPLIT_SYM + 'other'
+            callback_data='дата'
         )
     )
     await message.answer('Выберите: ', reply_markup=builder.as_markup())
+
+
+@router.callback_query(F.data == 'дата')
+async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
+    await callback.message.answer('input data:')
 
 
-@router.message(F.data == 'date' + SPLIT_SYM + 'today')
+@router.message(InputData.date)
 async def input_date(message: types.Message, state: FSMContext):
-    if F.data.split(SPLIT_SYM)[1] == 'today':
-        await state.update_data(date='today')
-    else:
-        await state.update_data(date=message.text)
+    await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
+    await message.answer('input kind:')
+
+
+@router.callback_query(F.data == 'сегодня')
+async def today_date(callback: types.CallbackQuery, state: FSMContext):
+    await state.set_state(InputData.date)
+    await state.update_data(date='today')
+
+    await state.set_state(InputData.kind)
+    await callback.message.answer('input kind:')
 
 
 @router.message(InputData.kind)
@@ -77,25 +89,21 @@ async def input_kind(message: types.Message, state: FSMContext):
 
     builder.row(
         types.InlineKeyboardButton(
-            text='income',
-            callback_data='kind' + SPLIT_SYM + 'income'
+            text='Cookies',
+            callback_data='cookies'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
-            text='expenses',
-            callback_data='kind' + SPLIT_SYM + 'expenses'
+            text='Not cookies',
+            callback_data='not_cookies'
         )
     )
-    await message.answer('Выберите kind: ', reply_markup=builder.as_markup())
-
-@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
-async def better_shares_result(callback: types.CallbackQuery, state: FSMContext):
-    await state.update_data(kind=F.data)
-    await print(F.data)
+    await message.answer('input kind: ', reply_markup=builder.as_markup())
+    await state.update_data(kind=message.text)
     # add date validator
     await state.set_state(InputData.category)
-    await callback.message.answer('input category:')
+    await message.answer('input category:')
 
 
 @router.message(InputData.category)
