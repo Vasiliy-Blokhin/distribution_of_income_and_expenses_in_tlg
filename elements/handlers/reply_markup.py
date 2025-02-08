@@ -102,6 +102,7 @@ async def input_value(message: types.Message, state: FSMContext):
     data = await state.get_data()
     nicname = message.from_user.username
     await message.answer(f'{nicname}: {data["date"]} - {data["kind"]} - {data["category"]} - {data["value"]}')
+    await state.clear()
 
 
 # ________________________________________________________________
