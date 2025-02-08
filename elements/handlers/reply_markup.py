@@ -102,7 +102,8 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
-    await callback.message.answer('input category:')
+    await callback.message.answer('input category: ', reply_markup=category_builder().as_markup())
+
 
 
 def category_builder() -> InlineKeyboardBuilder:
