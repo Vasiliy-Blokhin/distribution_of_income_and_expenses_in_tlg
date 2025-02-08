@@ -71,7 +71,7 @@ async def input_date(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
-    await message.answer('input kind:')
+
 
 
 @router.callback_query(F.data == 'сегодня')
@@ -80,7 +80,6 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(date='today')
 
     await state.set_state(InputData.kind)
-    await callback.message.answer('input kind:')
 
 
 @router.message(InputData.kind)
@@ -99,11 +98,14 @@ async def input_kind(message: types.Message, state: FSMContext):
             callback_data='kind' + SPLIT_SYM + 'expenses'
         )
     )
-    await message.answer('Выберите: ', reply_markup=builder.as_markup())
+    await message.answer('Выберите kind: ', reply_markup=builder.as_markup())
+
+@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
+async def better_shares_result(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=F.data(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
-    await message.answer('input category:')
+    await callback.message.answer('input category:')
 
 
 @router.message(InputData.category)
