@@ -41,7 +41,7 @@ async def command_start_handler(message: Message) -> None:
 
 # ________________________________________________________________
 @router.message(Command('ввод'))
-async def input(message: types.Message):
+async def input(message: types.Message, state: FSMContext):
     """ Вывод сообщения - общей информации."""
     builder = InlineKeyboardBuilder()
 
@@ -58,11 +58,11 @@ async def input(message: types.Message):
         )
     )
     await message.answer('Выберите: ', reply_markup=builder.as_markup())
+    await state.set_state(InputData.date)
 
 
 @router.message(InputData.date)
 async def input_date(message: types.Message, state: FSMContext):
-    await state.set_state(InputData.date)
     if F.data == 'сегодня':
         await state.update_data(date='today')
     else:
