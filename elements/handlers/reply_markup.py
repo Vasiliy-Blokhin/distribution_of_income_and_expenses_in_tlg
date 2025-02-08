@@ -80,12 +80,27 @@ async def today_date(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(date='today')
 
     await state.set_state(InputData.kind)
-    await callback.message.answer('input kind:')
+
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Cookies',
+            callback_data='cookies'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Not cookies',
+            callback_data='not_cookies'
+        )
+    )
+    await callback.message.answer('input kind: ', reply_markup=builder.as_markup())
 
 
 @router.message(InputData.kind)
 async def input_kind(message: types.Message, state: FSMContext):
-    await state.update_data(kind=message.text)
+    await state.update_data(kind=F.data)
     # add date validator
     await state.set_state(InputData.category)
     await message.answer('input category:')
