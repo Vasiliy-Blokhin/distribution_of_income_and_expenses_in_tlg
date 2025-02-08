@@ -139,7 +139,7 @@ def category_builder() -> InlineKeyboardBuilder:
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
 async def input_category(callback: types.CallbackQuery, state: FSMContext):
-    await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
+    await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.value)
     await callback.message.answer('input value:')
