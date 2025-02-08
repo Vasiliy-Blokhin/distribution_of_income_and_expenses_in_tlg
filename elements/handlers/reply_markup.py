@@ -48,22 +48,22 @@ async def input(message: types.Message, state: FSMContext):
     builder.row(
         types.InlineKeyboardButton(
             text='Сегодня',
-            callback_data='сегодня'
+            callback_data='date' + SPLIT_SYM + 'today'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Ввести вручную',
-            callback_data='дата'
+            callback_data='date' + SPLIT_SYM + 'other'
         )
     )
     await message.answer('Выберите: ', reply_markup=builder.as_markup())
     await state.set_state(InputData.date)
 
 
-@router.message(InputData.date)
+@router.message(F.data.split(SPLIT_SYM)[0] == 'date')
 async def input_date(message: types.Message, state: FSMContext):
-    if F.data == 'сегодня':
+    if F.data.split(SPLIT_SYM)[1] == 'today':
         await state.update_data(date='today')
     else:
         await state.update_data(date=message.text)
