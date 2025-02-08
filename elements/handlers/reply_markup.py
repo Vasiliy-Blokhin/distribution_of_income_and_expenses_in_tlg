@@ -60,8 +60,13 @@ async def input(message: types.Message):
     await message.answer('Выберите: ', reply_markup=builder.as_markup())
 
 
+@router.callback_query(F.data == 'сегодня')
+async def today_date(callback: types.CallbackQuery, state: FSMContext):
+    await state.set_state(InputData.date)
+    await state.update_data(date='today')
+
 @router.callback_query(F.data == 'дата')
-async def param_shares_button(callback: types.CallbackQuery, state: FSMContext):
+async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     await callback.message.answer('input data:')
 
@@ -74,21 +79,21 @@ async def input_date(message: types.Message, state: FSMContext):
     await message.answer('input kind:')
 
 @router.message(InputData.kind)
-async def input_date(message: types.Message, state: FSMContext):
+async def input_kind(message: types.Message, state: FSMContext):
     await state.update_data(kind=message.text)
     # add date validator
     await state.set_state(InputData.category)
     await message.answer('input category:')
 
 @router.message(InputData.category)
-async def input_date(message: types.Message, state: FSMContext):
+async def input_category(message: types.Message, state: FSMContext):
     await state.update_data(category=message.text)
     # add date validator
     await state.set_state(InputData.value)
     await message.answer('input value:')
 
 @router.message(InputData.value)
-async def input_date(message: types.Message, state: FSMContext):
+async def input_value(message: types.Message, state: FSMContext):
     await state.update_data(value=message.text)
     # add date validator
 
