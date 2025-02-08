@@ -105,7 +105,7 @@ async def input_value(message: types.Message, state: FSMContext):
 
 
 # ________________________________________________________________
-@router.message(F.text.lower() == '/вывод')
+@router.message(Command('вывод'))
 async def output(message: types.Message):
     """ Вывод сообщения - общей информации."""
     await message.reply('output')
