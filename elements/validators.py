@@ -1,6 +1,6 @@
 async def value_validator(value, type):
     try:
-        if not isinstance(type(value), type):
+        if not isinstance(value, type):
             return False
         return True
     except Exception:
