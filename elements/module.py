@@ -126,14 +126,14 @@ def kind_builder() -> InlineKeyboardBuilder:
 
     builder.row(
         types.InlineKeyboardButton(
-            text='income',
-            callback_data='kind' + SPLIT_SYM + 'income'
+            text='Доходы',
+            callback_data='kind' + SPLIT_SYM + 'Доходы'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
-            text='expenses',
-            callback_data='kind' + SPLIT_SYM + 'expenses'
+            text='Расходы',
+            callback_data='kind' + SPLIT_SYM + 'Расходы'
         )
     )
     return builder
