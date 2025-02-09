@@ -10,7 +10,7 @@ from aiogram.fsm.context import FSMContext
 from elements.message_builder import (
     start_message,
 )
-from elements.module import kind_builder, income_category_builder, expenses_category_builder
+from elements.module import kind_builder, income_category_builder, expenses_category_builder, get_current_date_str
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
@@ -59,7 +59,7 @@ async def input(message: types.Message):
             callback_data='date' + SPLIT_SYM + 'date'
         )
     )
-    await message.answer('Выберите: ', reply_markup=builder.as_markup())
+    await message.answer('Выберите ввод даты: ', reply_markup=builder.as_markup())
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
@@ -68,7 +68,7 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'date':
         await callback.message.answer('input data:')
     else:
-        await state.update_data(date='today')
+        await state.update_data(date=get_current_date_str)
         await callback.message.answer('input kind: ', reply_markup=kind_builder().as_markup())
 
 
@@ -110,9 +110,9 @@ async def input_value(message: types.Message, state: FSMContext):
     in_data = [
         {
             'user_id': user_id,
-            'day': date[0],
-            'month': date[1],
-            'year': date[2],
+            'day': int(date[0]),
+            'month': int(date[1]),
+            'year': int(date[2]),
             'kind': data['kind'],
             'category': data['category'],
             'value': data['value']
