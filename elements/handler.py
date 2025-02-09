@@ -91,7 +91,7 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
 @router.message(InputData.date)
 async def input_date(message: types.Message, state: FSMContext):
     try:
-        if date_validator(message.text):
+        if await date_validator(message.text):
             await state.update_data(date=message.text)
         else:
             raise Exception
