@@ -23,6 +23,23 @@ def start_message(name):
     return hello_message
 
 
+def date_instr():
+    return (
+        'Ввод даты осуществляется в формате:\n'
+        'дд.мм.гггг\n'
+        'Например:\n'
+        '22.12.2024'
+    )
+
+
+def value_instr():
+    return (
+        'Если сумму не целая, то значение вводится через точку.'
+        'Например:\n'
+        '1234.56'
+    )
+
+
 def result_input_message(name, date, kind, category, value):
     return (
         "Результат ввода данных:\n\n"

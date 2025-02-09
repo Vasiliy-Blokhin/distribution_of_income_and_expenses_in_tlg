@@ -10,7 +10,9 @@ from aiogram.fsm.context import FSMContext
 from elements.message_builder import (
     start_message,
     result_input_message,
-    error_message
+    error_message,
+    date_instr,
+    value_instr
 )
 from elements.module import (
     kind_builder,
@@ -80,6 +82,7 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     if callback.data.split(SPLIT_SYM)[1] == 'date':
         await callback.message.answer('Введите дату:')
+        await callback.message.answer(date_instr())
     else:
         await state.update_data(date=get_current_date_str())
         await callback.message.answer(
@@ -129,6 +132,7 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     await state.set_state(InputData.value)
     await callback.message.answer('Введите сумму:')
+    await callback.message.answer(value_instr())
 
 
 @router.message(InputData.value)
