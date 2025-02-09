@@ -9,7 +9,8 @@ from aiogram.fsm.context import FSMContext
 
 from elements.message_builder import (
     start_message,
-    result_input_message
+    result_input_message,
+    error_message
 )
 from elements.module import (
     kind_builder,
@@ -121,15 +122,14 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(InputData.value)
 async def input_value(message: types.Message, state: FSMContext):
-    await state.update_data(
-        value=value_validator(
-            value=message.text,
-            message=message,
-            state=state,
-            type=float
-        )
-    )
-    # add date validator
+    if value_validator(
+        value=message.text,
+        type=float,
+    ):
+        await state.update_data(value=message.text)
+    else:
+        await message.answer(error_message())
+        await state.clear()
 
     data = await state.get_data()
     user_id = message.from_user.id
