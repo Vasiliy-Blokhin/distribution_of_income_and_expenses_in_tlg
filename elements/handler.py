@@ -18,7 +18,7 @@ from elements.module import (
     expenses_category_builder,
     get_current_date_str
 )
-from elements.validators import value_validator
+from elements.validators import value_float_validator
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
@@ -122,10 +122,7 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(InputData.value)
 async def input_value(message: types.Message, state: FSMContext):
-    if value_validator(
-        value=message.text,
-        type=float,
-    ):
+    if value_float_validator(value=message.text):
         await state.update_data(value=message.text)
     else:
         await message.answer(error_message())
