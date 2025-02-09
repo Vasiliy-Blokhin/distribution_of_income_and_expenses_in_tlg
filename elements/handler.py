@@ -97,7 +97,7 @@ async def input_date(message: types.Message, state: FSMContext):
             raise Exception
     except Exception:
         await message.answer(error_message())
-        await state.clear()
+        await state.set_state(state=InputData.date)
     await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
