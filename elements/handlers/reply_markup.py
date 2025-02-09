@@ -68,7 +68,7 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'date':
         await callback.message.answer('input data:')
     else:
-        await state.update_data(date=get_current_date_str)
+        await state.update_data(date=get_current_date_str())
         await callback.message.answer('input kind: ', reply_markup=kind_builder().as_markup())
 
 

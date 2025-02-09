@@ -102,3 +102,8 @@ async def value_validator(message, state, value):
         await state.clear()
         return False
     return True
+
+
+def get_current_date_str():
+    current_date = datetime.date.today()
+    return f"{current_date.day}.{current_date.month}.{current_date.year}"
