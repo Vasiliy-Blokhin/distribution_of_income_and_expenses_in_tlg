@@ -4,9 +4,9 @@ import logging
 import sys
 
 from aiogram import Bot, Dispatcher
-from aiogram.enums import ParseMode
 
 from source.settings.settings import TOKEN, handler
+from source.sql.main import SQLmain as sql
 from elements.handlers import (
     reply_markup,
 )
@@ -28,5 +28,6 @@ async def main() -> None:
 
 
 if __name__ == '__main__':
+    sql.create_all_tables()
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     asyncio.run(main())

@@ -46,4 +46,4 @@ DB_URL = (
     f'@localhost:{db_port}/{db_name}'
 )
 
-SPLIT_SYM = '-'
+SPLIT_SYM = '.'

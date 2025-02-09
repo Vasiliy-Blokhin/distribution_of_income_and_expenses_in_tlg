@@ -12,7 +12,8 @@ from elements.message_builder import (
 )
 from elements.module import kind_builder, category_builder
 from source.settings.settings import SPLIT_SYM
-
+from source.sql.main import SQLmain as sql
+from source.sql.tables import MainTable
 router = Router()
 
 
@@ -101,7 +102,24 @@ async def input_value(message: types.Message, state: FSMContext):
 
     data = await state.get_data()
     nicname = message.from_user.username
+    user_id = message.from_user.id
+    date = data['date'].split(SPLIT_SYM)
+    in_data = [
+        {
+            'user_id': user_id,
+            'day': date[0],
+            'month': date[1],
+            'year': date[2],
+            'kind': data['kind'],
+            'category': data['category'],
+            'value': data['value']
+        }
+    ]
     await message.answer(f'{nicname}: {data["date"]} - {data["kind"]} - {data["category"]} - {data["value"]}')
+    sql.append_data(
+        table=MainTable,
+        data=in_data
+    )
     await state.clear()
 
 
