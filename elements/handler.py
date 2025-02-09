@@ -125,7 +125,8 @@ async def input_value(message: types.Message, state: FSMContext):
         value=value_validator(
             value=message.text,
             message=message,
-            state=state
+            state=state,
+            type=float
         )
     )
     # add date validator
