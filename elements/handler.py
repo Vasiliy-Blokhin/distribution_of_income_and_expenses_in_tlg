@@ -9,8 +9,14 @@ from aiogram.fsm.context import FSMContext
 
 from elements.message_builder import (
     start_message,
+    result_input_message
 )
-from elements.module import kind_builder, income_category_builder, expenses_category_builder, get_current_date_str
+from elements.module import (
+    kind_builder,
+    income_category_builder,
+    expenses_category_builder,
+    get_current_date_str
+)
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
@@ -104,7 +110,6 @@ async def input_value(message: types.Message, state: FSMContext):
     # add date validator
 
     data = await state.get_data()
-    nicname = message.from_user.username
     user_id = message.from_user.id
     date = data['date'].split(SPLIT_SYM)
     in_data = [
@@ -118,7 +123,15 @@ async def input_value(message: types.Message, state: FSMContext):
             'value': data['value']
         }
     ]
-    await message.answer(f'{nicname}: {data["date"]} - {data["kind"]} - {data["category"]} - {data["value"]}')
+    await message.answer(
+        result_input_message(
+            date=data['date'],
+            name=message.from_user.username,
+            category=data['category'],
+            value=data['value'],
+            kind=data['kind']
+        )
+    )
     sql.append_data(
         table=MainTable,
         data=in_data

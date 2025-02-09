@@ -21,3 +21,14 @@ def start_message(name):
         f'👋Приветсвую, {name}!'
     )
     return hello_message
+
+
+def result_input_message(name, date, kind, category, value):
+    return (
+        "Результат ввода данных:\n\n"
+        f"Пользователь: {name}\n"
+        f"Дата операции: {date}\n"
+        f"Тип операции: {kind}\n"
+        f"Категория операции: {category}\n"
+        f"Сумма: {value}\n"
+    )

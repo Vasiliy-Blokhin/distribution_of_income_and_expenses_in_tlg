@@ -7,8 +7,8 @@ from aiogram import Bot, Dispatcher
 
 from source.settings.settings import TOKEN, handler
 from source.sql.main import SQLmain as sql
-from elements.handlers import (
-    reply_markup,
+from elements import (
+    handler,
 )
 
 
@@ -22,7 +22,7 @@ async def main() -> None:
     bot = Bot(TOKEN,)
     dp = Dispatcher()
     dp.include_routers(
-        reply_markup.router,
+        handler.router,
     )
     await dp.start_polling(bot)
 
