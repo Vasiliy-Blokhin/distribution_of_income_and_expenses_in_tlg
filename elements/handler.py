@@ -95,13 +95,16 @@ async def input_date(message: types.Message, state: FSMContext):
             await state.update_data(date=message.text)
         else:
             raise Exception
+        await state.update_data(date=message.text)
+        await state.set_state(InputData.kind)
+        await message.answer(
+            'Выберите тип операции: ',
+            reply_markup=kind_builder().as_markup()
+        )
     except Exception:
         await message.answer(error_message())
+        await state.clear()
         await input(message)
-    await state.update_data(date=message.text)
-    # add date validator
-    await state.set_state(InputData.kind)
-    await message.answer('Выберите тип операции: ', reply_markup=kind_builder().as_markup())
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
