@@ -17,9 +17,12 @@ from elements.module import (
     expenses_category_builder,
     get_current_date_str
 )
+from elements.validators import value_validator
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
+
+
 router = Router()
 
 
@@ -65,17 +68,23 @@ async def input(message: types.Message):
             callback_data='date' + SPLIT_SYM + 'date'
         )
     )
-    await message.answer('Выберите ввод даты: ', reply_markup=builder.as_markup())
+    await message.answer(
+        'Выберите ввод даты: ',
+        reply_markup=builder.as_markup()
+    )
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
 async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     if callback.data.split(SPLIT_SYM)[1] == 'date':
-        await callback.message.answer('input data:')
+        await callback.message.answer('Введите дату:')
     else:
         await state.update_data(date=get_current_date_str())
-        await callback.message.answer('input kind: ', reply_markup=kind_builder().as_markup())
+        await callback.message.answer(
+            'Выберите тип операции: ',
+            reply_markup=kind_builder().as_markup()
+        )
 
 
 @router.message(InputData.date)
@@ -83,7 +92,7 @@ async def input_date(message: types.Message, state: FSMContext):
     await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
-    await message.answer('input kind: ', reply_markup=kind_builder().as_markup())
+    await message.answer('Выберите тип операции: ', reply_markup=kind_builder().as_markup())
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
@@ -91,22 +100,34 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
-    if callback.data.split(SPLIT_SYM)[1] == 'income':
-        await callback.message.answer('input category: ', reply_markup=income_category_builder().as_markup())
+    if callback.data.split(SPLIT_SYM)[1] == 'Доходы':
+        await callback.message.answer(
+            'Выберите категорию операции: ',
+            reply_markup=income_category_builder().as_markup()
+        )
     else:
-        await callback.message.answer('input category: ', reply_markup=expenses_category_builder().as_markup())
+        await callback.message.answer(
+            'Выберите категорию операции: ',
+            reply_markup=expenses_category_builder().as_markup()
+        )
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
 async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     await state.set_state(InputData.value)
-    await callback.message.answer('input value:')
+    await callback.message.answer('Введите сумму:')
 
 
 @router.message(InputData.value)
 async def input_value(message: types.Message, state: FSMContext):
-    await state.update_data(value=message.text)
+    await state.update_data(
+        value=value_validator(
+            value=message.text,
+            message=message,
+            state=state
+        )
+    )
     # add date validator
 
     data = await state.get_data()

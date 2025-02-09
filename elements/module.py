@@ -139,25 +139,6 @@ def kind_builder() -> InlineKeyboardBuilder:
     return builder
 
 
-async def value_validator(message, state, value):
-    try:
-        if not isinstance(int(value), int):
-            await message.answer(
-                'Вы ввели неверные данные. \n'
-                'Ознакомтесь с правилами еще раз'
-            )
-            await state.clear()
-            return False
-    except Exception:
-        await message.answer(
-            'Вы ввели неверные данные. \n'
-            'Ознакомтесь с правилами еще раз'
-        )
-        await state.clear()
-        return False
-    return True
-
-
 def get_current_date_str():
     current_date = datetime.date.today()
     return f"{current_date.day}.{current_date.month}.{current_date.year}"
