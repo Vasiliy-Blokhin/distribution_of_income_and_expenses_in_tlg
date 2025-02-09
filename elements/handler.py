@@ -122,9 +122,9 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(InputData.value)
 async def input_value(message: types.Message, state: FSMContext):
-    if value_float_validator(value=message.text):
-        await state.update_data(value=message.text)
-    else:
+    try:
+        await state.update_data(value=float(message.text))
+    except Exception:
         await message.answer(error_message())
         await state.clear()
 
