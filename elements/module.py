@@ -4,30 +4,61 @@ from aiogram import types
 from source.settings.settings import SPLIT_SYM
 
 
-def category_builder() -> InlineKeyboardBuilder:
+def income_category_builder() -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
 
     builder.add(
         types.InlineKeyboardButton(
-            text='category1',
+            text='inc_category1',
             callback_data='category' + SPLIT_SYM + 'category1'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='category2',
+            text='inc_category2',
             callback_data='category' + SPLIT_SYM + 'category2'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='category3',
+            text='inc_category3',
             callback_data='category' + SPLIT_SYM + 'category3'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='category4',
+            text='inc_category4',
+            callback_data='category' + SPLIT_SYM + 'category4'
+        )
+    )
+    builder.adjust(2)
+    return builder
+
+
+def expenses_category_builder() -> InlineKeyboardBuilder:
+    builder = InlineKeyboardBuilder()
+
+    builder.add(
+        types.InlineKeyboardButton(
+            text='exp_category1',
+            callback_data='category' + SPLIT_SYM + 'category1'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='exp_category2',
+            callback_data='category' + SPLIT_SYM + 'category2'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='exp_category3',
+            callback_data='category' + SPLIT_SYM + 'category3'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='exp_category4',
             callback_data='category' + SPLIT_SYM + 'category4'
         )
     )

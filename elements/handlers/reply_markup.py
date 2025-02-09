@@ -10,7 +10,7 @@ from aiogram.fsm.context import FSMContext
 from elements.message_builder import (
     start_message,
 )
-from elements.module import kind_builder, category_builder
+from elements.module import kind_builder, income_category_builder, expenses_category_builder
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
@@ -85,7 +85,10 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
     # add date validator
     await state.set_state(InputData.category)
-    await callback.message.answer('input category: ', reply_markup=category_builder().as_markup())
+    if callback.data.split(SPLIT_SYM)[1] == 'income':
+        await callback.message.answer('input category: ', reply_markup=income_category_builder().as_markup())
+    else:
+        await callback.message.answer('input category: ', reply_markup=expenses_category_builder().as_markup())
 
 
 @router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
