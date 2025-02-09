@@ -10,26 +10,44 @@ def income_category_builder() -> InlineKeyboardBuilder:
 
     builder.add(
         types.InlineKeyboardButton(
-            text='inc_category1',
-            callback_data='category' + SPLIT_SYM + 'category1'
+            text='Зарплата',
+            callback_data='category' + SPLIT_SYM + 'Зарплата'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='inc_category2',
-            callback_data='category' + SPLIT_SYM + 'category2'
+            text='Купонный доход',
+            callback_data='category' + SPLIT_SYM + 'Купонный доход'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='inc_category3',
-            callback_data='category' + SPLIT_SYM + 'category3'
+            text='Дивиденты',
+            callback_data='category' + SPLIT_SYM + 'Дивиденты'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='inc_category4',
-            callback_data='category' + SPLIT_SYM + 'category4'
+            text='Проценты вклада',
+            callback_data='category' + SPLIT_SYM + 'Проценты вклада'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Разовые выплаты',
+            callback_data='category' + SPLIT_SYM + 'Разовые выплаты'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Перевод',
+            callback_data='category' + SPLIT_SYM + 'Перевод'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Другие доходы',
+            callback_data='category' + SPLIT_SYM + 'Другие доходы'
         )
     )
     builder.adjust(2)
@@ -41,26 +59,62 @@ def expenses_category_builder() -> InlineKeyboardBuilder:
 
     builder.add(
         types.InlineKeyboardButton(
-            text='exp_category1',
-            callback_data='category' + SPLIT_SYM + 'category1'
+            text='ЖКХ',
+            callback_data='category' + SPLIT_SYM + 'ЖКХ'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='exp_category2',
-            callback_data='category' + SPLIT_SYM + 'category2'
+            text='Интернет',
+            callback_data='category' + SPLIT_SYM + 'Интернет'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='exp_category3',
-            callback_data='category' + SPLIT_SYM + 'category3'
+            text='Связь',
+            callback_data='category' + SPLIT_SYM + 'Связь'
         )
     )
     builder.add(
         types.InlineKeyboardButton(
-            text='exp_category4',
-            callback_data='category' + SPLIT_SYM + 'category4'
+            text='Подписки',
+            callback_data='category' + SPLIT_SYM + 'Подписки'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Еда',
+            callback_data='category' + SPLIT_SYM + 'Еда'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Хоз. товары',
+            callback_data='category' + SPLIT_SYM + 'Хоз. товары'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Ребенок',
+            callback_data='category' + SPLIT_SYM + 'Ребенок'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Озон/ВБ/Али',
+            callback_data='category' + SPLIT_SYM + 'Озон/ВБ/Али'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Перевод',
+            callback_data='category' + SPLIT_SYM + 'Перевод'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Другие расходы',
+            callback_data='category' + SPLIT_SYM + 'Другие расходы'
         )
     )
     builder.adjust(2)
