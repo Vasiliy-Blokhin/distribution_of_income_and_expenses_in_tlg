@@ -20,24 +20,23 @@ days_dict = {
 
 async def date_validator(value):
     try:
-        print(value)
         date = value.split(SPLIT_SYM)
         day = int(date[0])
         month = int(date[1])
         year = int(date[2])
-        print(f'{day} - {month} - {year}')
+
         if year < 1970 or year > int(datetime.date.today().year):
-            return False
+            raise Exception
         if not month in days_dict:
-            return False
+            raise Exception
         elif day < 1 and day > days_dict[month]:
-            return False
+            raise Exception
         elif  (
             not (
                 (year % 4 == 0 and year % 100 != 0) or year % 400 == 0
             ) and month == 2 and day > 28
         ):
-            return False
+            raise Exception
         return True
     except Exception:
         return False
