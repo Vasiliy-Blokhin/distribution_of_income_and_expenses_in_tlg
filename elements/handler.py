@@ -18,7 +18,7 @@ from elements.module import (
     expenses_category_builder,
     get_current_date_str
 )
-from elements.validators import value_float_validator
+from elements.validators import date_validator
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
@@ -90,6 +90,14 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
 
 @router.message(InputData.date)
 async def input_date(message: types.Message, state: FSMContext):
+    try:
+        if date_validator(message.text):
+            await state.update_data(date=message.text)
+        else:
+            raise Exception
+    except Exception:
+        await message.answer(error_message())
+        await state.clear()
     await state.update_data(date=message.text)
     # add date validator
     await state.set_state(InputData.kind)
