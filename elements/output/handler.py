@@ -110,3 +110,15 @@ async def end_date(message: types.Message, state: FSMContext):
         'Введите тип операций:',
         reply_markup=output_kind_builder().as_markup()
     )
+
+
+@output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'okind')
+async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
+    await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
+
+    data = await state.get_data()
+    await callback.message.answer(
+        f"{data['date_start']} - {data['date_end']}\n"
+        f"{data['kind']}\n"
+        f"{callback.message.from_user.id}"
+    )
