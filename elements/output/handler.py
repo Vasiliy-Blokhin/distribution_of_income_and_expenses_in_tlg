@@ -111,7 +111,6 @@ async def different_years_and_dates(message: types.Message, state: FSMContext):
             await message.answer(date_instr())
     except Exception:
         await message.answer(error_message())
-        await state.clear()
         await output(message)
 
 @output_router.message(OutputData.date_end)
@@ -128,7 +127,6 @@ async def end_date(message: types.Message, state: FSMContext):
         )
     except Exception:
         await message.answer(error_message())
-        await state.clear()
         await output(message)
 
 
