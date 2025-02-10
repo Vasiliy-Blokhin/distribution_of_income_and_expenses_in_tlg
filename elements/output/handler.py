@@ -53,10 +53,10 @@ async def in_month(callback: types.CallbackQuery, state: FSMContext):
         await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
         await state.update_data(date_start=current_date)
-        await callback.answer(f'start - {start_date}\nend - {current_date}')
+        await callback.message.answer(f'start - {start_date}\nend - {current_date}')
     elif command[1] == 'За текущий год':
         start_date = '01' + SPLIT_SYM + '01' + SPLIT_SYM + current_date.split(SPLIT_SYM)[2]
         await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
         await state.update_data(date_start=current_date)
-        await callback.answer(f'start - {start_date}\nend - {current_date}')
+        await callback.message.answer(f'start - {start_date}\nend - {current_date}')
