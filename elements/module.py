@@ -139,6 +139,37 @@ def kind_builder() -> InlineKeyboardBuilder:
     return builder
 
 
+def output_date_builder() -> InlineKeyboardBuilder:
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='За текущий месяц',
+            callback_data='date' + SPLIT_SYM + 'За текущий месяц'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='За текущий год',
+            callback_data='date' + SPLIT_SYM + 'За текущий год'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='За определенный год',
+            callback_data='date' + SPLIT_SYM + 'За определенный год'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Произвольная дата',
+            callback_data='date' + SPLIT_SYM + 'Произвольная дата'
+        )
+    )
+    builder.adjust(2)
+    return builder
+
+
 def get_current_date_str():
     current_date = datetime.date.today()
     return f"{current_date.day}.{current_date.month}.{current_date.year}"
