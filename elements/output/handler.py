@@ -103,7 +103,7 @@ async def different_years_and_dates(message: types.Message, state: FSMContext):
             )
         elif flag['flag'] == 2:
             if await date_validator(message.text):
-                await state.update_data(date=message.text)
+                await state.update_data(date_start=message.text)
             else:
                 raise Exception
             await state.set_state(OutputData.date_end)
@@ -117,7 +117,7 @@ async def different_years_and_dates(message: types.Message, state: FSMContext):
 async def end_date(message: types.Message, state: FSMContext):
     try:
         if await date_validator(message.text):
-            await state.update_data(date=message.text)
+            await state.update_data(date_end=message.text)
         else:
             raise Exception
         await state.set_state(OutputData.kind)
