@@ -26,7 +26,7 @@ from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
 
 
-router = Router()
+input_router = Router()
 
 
 class InputData(StatesGroup):
@@ -36,7 +36,7 @@ class InputData(StatesGroup):
     value = State()
 
 
-@router.message(CommandStart())
+@input_router.message(CommandStart())
 async def command_start_handler(message: Message) -> None:
     """
     Стартовый набор команд (сообщений).
@@ -54,7 +54,7 @@ async def command_start_handler(message: Message) -> None:
     )
 
 # ________________________________________________________________
-@router.message(Command('ввод'))
+@input_router.message(Command('ввод'))
 async def input(message: types.Message):
     """ Вывод сообщения - общей информации."""
     builder = InlineKeyboardBuilder()
@@ -77,7 +77,7 @@ async def input(message: types.Message):
     )
 
 
-@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
 async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     if callback.data.split(SPLIT_SYM)[1] == 'date':
@@ -91,7 +91,7 @@ async def create_date(callback: types.CallbackQuery, state: FSMContext):
         )
 
 
-@router.message(InputData.date)
+@input_router.message(InputData.date)
 async def input_date(message: types.Message, state: FSMContext):
     try:
         if await date_validator(message.text):
@@ -110,7 +110,7 @@ async def input_date(message: types.Message, state: FSMContext):
         await input(message)
 
 
-@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
 async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
     # add date validator
@@ -127,7 +127,7 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
         )
 
 
-@router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
 async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     await state.set_state(InputData.value)
@@ -135,7 +135,7 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await callback.message.answer(value_instr())
 
 
-@router.message(InputData.value)
+@input_router.message(InputData.value)
 async def input_value(message: types.Message, state: FSMContext):
     try:
         await state.update_data(value=float(message.text))
@@ -171,10 +171,3 @@ async def input_value(message: types.Message, state: FSMContext):
         data=in_data
     )
     await state.clear()
-
-
-# ________________________________________________________________
-@router.message(Command('вывод'))
-async def output(message: types.Message):
-    """ Вывод сообщения - общей информации."""
-    await message.reply('output')

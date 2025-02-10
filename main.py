@@ -7,10 +7,8 @@ from aiogram import Bot, Dispatcher
 
 from source.settings.settings import TOKEN, handler
 from source.sql.main import SQLmain as sql
-from elements import (
-    handler,
-)
-
+from elements.input.handler import input_router
+from elements.output.handler import input_router
 
 logger = logging.getLogger(name=__name__)  # Запуск логга проекта.
 logger.setLevel(logging.DEBUG)
@@ -22,7 +20,7 @@ async def main() -> None:
     bot = Bot(TOKEN,)
     dp = Dispatcher()
     dp.include_routers(
-        handler.router,
+        input_router,
     )
     await dp.start_polling(bot)
 
