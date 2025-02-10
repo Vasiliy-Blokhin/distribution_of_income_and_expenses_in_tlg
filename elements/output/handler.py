@@ -113,7 +113,7 @@ async def end_date(message: types.Message, state: FSMContext):
 
 
 @output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'okind')
-async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
+async def result(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
 
     data = await state.get_data()
