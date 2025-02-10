@@ -43,11 +43,12 @@ async def output(message: types.Message):
     )
 
 
-@output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
+@output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'odate')
 async def in_month(callback: types.CallbackQuery, state: FSMContext):
     command = callback.data.split(SPLIT_SYM)
     state.set_state(OutputData.date_start)
     current_date = get_current_date_str().split(SPLIT_SYM)
+    callback.answer(f'type - {command[0]}\ncommand - {command[1]}')
     if command[1] == 'За текущий месяц':
         start_date = '01' + SPLIT_SYM + current_date[1::]
         state.update_data(date_start=start_date)
