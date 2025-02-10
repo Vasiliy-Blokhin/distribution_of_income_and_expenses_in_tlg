@@ -44,7 +44,7 @@ async def date_validator(value):
 
 async def year_validator(value):
     try:
-        if value < 1970 or value > int(datetime.date.today().year):
+        if int(value) < 1970 or int(value) > int(datetime.date.today().year):
             raise Exception
         return True
     except Exception:
