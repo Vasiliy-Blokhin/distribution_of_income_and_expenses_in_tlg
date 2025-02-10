@@ -117,6 +117,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
 
     data = await state.get_data()
+    await callback.message.answer(data)
     await callback.message.answer(
         f"{data['date_start']} - {data['date_end']}\n"
         f"{data['kind']}\n"
