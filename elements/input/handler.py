@@ -159,7 +159,7 @@ async def input_value(message: types.Message, state: FSMContext):
     await message.answer(
         result_input_message(
             date=data['date'],
-            name=message.from_user.username,
+            name=user_id,
             category=data['category'],
             value=data['value'],
             kind=data['kind']

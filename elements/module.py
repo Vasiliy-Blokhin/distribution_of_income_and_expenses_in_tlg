@@ -139,6 +139,30 @@ def kind_builder() -> InlineKeyboardBuilder:
     return builder
 
 
+def output_kind_builder() -> InlineKeyboardBuilder:
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Доходы',
+            callback_data='okind' + SPLIT_SYM + 'Доходы'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Расходы',
+            callback_data='okind' + SPLIT_SYM + 'Расходы'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Все',
+            callback_data='okind' + SPLIT_SYM + 'Все'
+        )
+    )
+    return builder
+
+
 def output_date_builder() -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
 

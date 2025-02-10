@@ -17,7 +17,8 @@ from elements.message_builder import (
 )
 from elements.module import (
     output_date_builder,
-    get_current_date_str
+    get_current_date_str,
+    output_kind_builder
 )
 from elements.validators import date_validator
 from source.settings.settings import SPLIT_SYM
@@ -32,6 +33,7 @@ class OutputData(StatesGroup):
     date_start = State()
     date_end = State()
     kind = State()
+    flag = State()
 
 
 @output_router.message(Command('вывод'))
@@ -44,7 +46,7 @@ async def output(message: types.Message):
 
 
 @output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'odate')
-async def in_month(callback: types.CallbackQuery, state: FSMContext):
+async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(OutputData.date_start)
     command = callback.data.split(SPLIT_SYM)
     current_date = get_current_date_str()
@@ -53,10 +55,57 @@ async def in_month(callback: types.CallbackQuery, state: FSMContext):
         await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
         await state.update_data(date_start=current_date)
-        await callback.message.answer(f'start - {start_date}\nend - {current_date}')
+        await state.set_state(OutputData.kind)
+        await callback.message.answer(
+            'Введите тип операций:',
+            reply_markup=output_date_builder().as_markup()
+        )
     elif command[1] == 'За текущий год':
         start_date = '01' + SPLIT_SYM + '01' + SPLIT_SYM + current_date.split(SPLIT_SYM)[2]
         await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
         await state.update_data(date_start=current_date)
-        await callback.message.answer(f'start - {start_date}\nend - {current_date}')
+        await state.set_state(OutputData.kind)
+        await callback.message.answer(
+            'Введите тип операций:',
+            reply_markup=output_date_builder().as_markup()
+        )
+    elif command[1] == 'За определенный год':
+        await state.set_state(OutputData.flag)
+        await state.update_data(flag=1)
+        await state.set_state(OutputData.date_start)
+        await callback.message.answer('Введите год:')
+    elif command[1] == 'Произвольная дата':
+        await state.set_state(OutputData.flag)
+        await state.update_data(flag=2)
+        await state.set_state(OutputData.date_start)
+        await callback.message.answer('Введите стартовую дату:')
+
+
+@output_router.message(OutputData.date_start)
+async def different_years_and_dates(callback: types.CallbackQuery, state: FSMContext):
+    if state.get_data()['flag'] == 1:
+        start_date = '01.01.' + callback.message.text
+        await state.update_data(date_start=start_date)
+        end_date = '31.12.' + callback.message.text
+        await state.set_state(OutputData.date_end)
+        await state.update_data(date_end=end_date)
+        await state.set_state(OutputData.kind)
+        await callback.message.answer(
+            'Введите тип операций:',
+            reply_markup=output_date_builder().as_markup()
+        )
+    elif state.get_data()['flag'] == 2:
+        await state.update_data(date_start=callback.message.text)
+        await state.set_state(OutputData.date_end)
+        await callback.message.answer('Введите конечную дату:')
+
+
+@output_router.message(OutputData.date_end)
+async def end_date(callback: types.CallbackQuery, state: FSMContext):
+    await state.update_data(date_end=callback.message.text)
+    await state.set_state(OutputData.kind)
+    await callback.message.answer(
+        'Введите тип операций:',
+        reply_markup=output_date_builder().as_markup()
+    )
