@@ -83,30 +83,30 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
 
 
 @output_router.message(OutputData.date_start)
-async def different_years_and_dates(callback: types.CallbackQuery, state: FSMContext):
+async def different_years_and_dates(message: types.Message, state: FSMContext):
     flag = await state.get_data()
     if flag['flag'] == 1:
-        start_date = '01.01.' + callback.message.text
+        start_date = '01.01.' + message.text
         await state.update_data(date_start=start_date)
-        end_date = '31.12.' + callback.message.text
+        end_date = '31.12.' + message.text
         await state.set_state(OutputData.date_end)
         await state.update_data(date_end=end_date)
         await state.set_state(OutputData.kind)
-        await callback.message.answer(
+        await message.answer(
             'Введите тип операций:',
             reply_markup=output_kind_builder().as_markup()
         )
     elif flag['flag'] == 2:
-        await state.update_data(date_start=callback.message.text)
+        await state.update_data(date_start=message.text)
         await state.set_state(OutputData.date_end)
-        await callback.message.answer('Введите конечную дату:')
+        await message.answer('Введите конечную дату:')
 
 
 @output_router.message(OutputData.date_end)
-async def end_date(callback: types.CallbackQuery, state: FSMContext):
-    await state.update_data(date_end=callback.message.text)
+async def end_date(message: types.Message, state: FSMContext):
+    await state.update_data(date_end=message.text)
     await state.set_state(OutputData.kind)
-    await callback.message.answer(
+    await message.answer(
         'Введите тип операций:',
         reply_markup=output_kind_builder().as_markup()
     )
