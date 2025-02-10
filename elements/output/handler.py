@@ -54,7 +54,7 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
         start_date = '01' + SPLIT_SYM + current_date.split(SPLIT_SYM)[1] + SPLIT_SYM + current_date.split(SPLIT_SYM)[2]
         await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
-        await state.update_data(date_start=current_date)
+        await state.update_data(date_end=current_date)
         await state.set_state(OutputData.kind)
         await callback.message.answer(
             'Введите тип операций:',
@@ -64,7 +64,7 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
         start_date = '01' + SPLIT_SYM + '01' + SPLIT_SYM + current_date.split(SPLIT_SYM)[2]
         await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
-        await state.update_data(date_start=current_date)
+        await state.update_data(date_end=current_date)
         await state.set_state(OutputData.kind)
         await callback.message.answer(
             'Введите тип операций:',
