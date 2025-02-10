@@ -84,7 +84,7 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
 
 @output_router.message(OutputData.date_start)
 async def different_years_and_dates(callback: types.CallbackQuery, state: FSMContext):
-    if state.get_data()['flag'] == 1:
+    if await state.get_data()['flag'] == 1:
         start_date = '01.01.' + callback.message.text
         await state.update_data(date_start=start_date)
         end_date = '31.12.' + callback.message.text
@@ -95,7 +95,7 @@ async def different_years_and_dates(callback: types.CallbackQuery, state: FSMCon
             'Введите тип операций:',
             reply_markup=output_kind_builder().as_markup()
         )
-    elif state.get_data()['flag'] == 2:
+    elif await state.get_data()['flag'] == 2:
         await state.update_data(date_start=callback.message.text)
         await state.set_state(OutputData.date_end)
         await callback.message.answer('Введите конечную дату:')
