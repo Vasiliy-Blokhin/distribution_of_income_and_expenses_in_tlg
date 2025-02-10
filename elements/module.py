@@ -127,13 +127,13 @@ def kind_builder() -> InlineKeyboardBuilder:
     builder.row(
         types.InlineKeyboardButton(
             text='Доходы',
-            callback_data='kind' + SPLIT_SYM + 'Доходы'
+            callback_data='ikind' + SPLIT_SYM + 'Доходы'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Расходы',
-            callback_data='kind' + SPLIT_SYM + 'Расходы'
+            callback_data='ikind' + SPLIT_SYM + 'Расходы'
         )
     )
     return builder
@@ -145,25 +145,25 @@ def output_date_builder() -> InlineKeyboardBuilder:
     builder.row(
         types.InlineKeyboardButton(
             text='За текущий месяц',
-            callback_data='date' + SPLIT_SYM + 'За текущий месяц'
+            callback_data='odate' + SPLIT_SYM + 'За текущий месяц'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='За текущий год',
-            callback_data='date' + SPLIT_SYM + 'За текущий год'
+            callback_data='odate' + SPLIT_SYM + 'За текущий год'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='За определенный год',
-            callback_data='date' + SPLIT_SYM + 'За определенный год'
+            callback_data='odate' + SPLIT_SYM + 'За определенный год'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Произвольная дата',
-            callback_data='date' + SPLIT_SYM + 'Произвольная дата'
+            callback_data='odate' + SPLIT_SYM + 'Произвольная дата'
         )
     )
     builder.adjust(2)

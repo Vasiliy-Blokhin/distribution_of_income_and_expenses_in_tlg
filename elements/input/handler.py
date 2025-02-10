@@ -62,13 +62,13 @@ async def input(message: types.Message):
     builder.row(
         types.InlineKeyboardButton(
             text='Сегодня',
-            callback_data='date' + SPLIT_SYM + 'today'
+            callback_data='idate' + SPLIT_SYM + 'today'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Ввести вручную',
-            callback_data='date' + SPLIT_SYM + 'date'
+            callback_data='idate' + SPLIT_SYM + 'date'
         )
     )
     await message.answer(
@@ -77,7 +77,7 @@ async def input(message: types.Message):
     )
 
 
-@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'date')
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'idate')
 async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     if callback.data.split(SPLIT_SYM)[1] == 'date':
@@ -110,10 +110,9 @@ async def input_date(message: types.Message, state: FSMContext):
         await input(message)
 
 
-@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'kind')
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'ikind')
 async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
-    # add date validator
     await state.set_state(InputData.category)
     if callback.data.split(SPLIT_SYM)[1] == 'Доходы':
         await callback.message.answer(
