@@ -23,6 +23,11 @@ class SQLmain:
         Base.metadata.create_all(bind=main_engine)
 
     @staticmethod
+    def restart_all_tables():
+        Base.metadata.drop_all(bind=main_engine)
+        Base.metadata.create_all(bind=main_engine)
+
+    @staticmethod
     def insert_data(data, table):
         with Session(bind=main_engine) as s:
             Base.metadata.drop_all(
