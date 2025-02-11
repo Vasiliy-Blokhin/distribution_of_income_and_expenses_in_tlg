@@ -1,4 +1,5 @@
 import datetime
+from source.settings.settings import SPLIT_SYM
 
 
 def get_current_date_str():
@@ -21,7 +22,8 @@ def sort_data(request_data, user_data):
 
     for el in user_data:
         user_date = str_to_date(
-            str(el['day']) + str(el['month']) + str(el['year'])
+            str(el['day']) + SPLIT_SYM +
+            + str(el['month']) + SPLIT_SYM + str(el['year'])
         )
         if user_date >= start_date and user_data <= end_date:
             if request_data['kind'] == 'Доходы' and el['kind'] == 'Доходы':
