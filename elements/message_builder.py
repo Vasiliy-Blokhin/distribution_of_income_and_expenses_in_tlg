@@ -52,7 +52,7 @@ def value_instr():
 def result_input_message(date, kind, category, value, user_id):
     return (
         "Результат ввода данных:\n\n"
-        f"ID пользователя: {user_id}"
+        f"ID пользователя: {user_id}\n"
         f"Дата операции: {date}\n"
         f"Тип операции: {kind}\n"
         f"Категория операции: {category}\n"

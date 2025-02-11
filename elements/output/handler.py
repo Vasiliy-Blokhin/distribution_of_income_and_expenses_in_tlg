@@ -52,6 +52,7 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
     current_date = get_current_date_str()
     if command[1] == 'За текущий месяц':
         start_date = '01' + SPLIT_SYM + current_date.split(SPLIT_SYM)[1] + SPLIT_SYM + current_date.split(SPLIT_SYM)[2]
+        await state.update_data(date_start=start_date)
         await state.set_state(OutputData.date_end)
         await state.update_data(date_end=current_date)
         await state.set_state(OutputData.kind)
