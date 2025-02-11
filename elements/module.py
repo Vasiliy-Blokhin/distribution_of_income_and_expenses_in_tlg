@@ -27,7 +27,7 @@ def sort_data(request_data, user_data, callback):
                 f"{str(el['month'])}{SPLIT_SYM}{str(el['year'])}"
             )
         )
-        callback.message.answer0(
+        callback.message.answer(
             f"{type(user_data)} - {type(start_date)} - {type(end_date)}\n"
             f"{(user_data)} - {(start_date)} - {(end_date)}\n"
         )
