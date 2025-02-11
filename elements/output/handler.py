@@ -142,5 +142,5 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     )
 
     await callback.message.answer(
-        len(sort_data(request_data, user_data))
+        str(len(sort_data(request_data, user_data)))
     )
