@@ -45,6 +45,12 @@ def income_category_builder() -> InlineKeyboardBuilder:
     )
     builder.add(
         types.InlineKeyboardButton(
+            text='Репетиторство',
+            callback_data='category' + SPLIT_SYM + 'Репетиторство'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
             text='Другие доходы',
             callback_data='category' + SPLIT_SYM + 'Другие доходы'
         )
@@ -108,6 +114,12 @@ def expenses_category_builder() -> InlineKeyboardBuilder:
         types.InlineKeyboardButton(
             text='Перевод',
             callback_data='category' + SPLIT_SYM + 'Перевод'
+        )
+    )
+    builder.add(
+        types.InlineKeyboardButton(
+            text='Здоровье',
+            callback_data='category' + SPLIT_SYM + 'Здоровье'
         )
     )
     builder.add(
