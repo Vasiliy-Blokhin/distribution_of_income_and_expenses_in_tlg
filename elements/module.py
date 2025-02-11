@@ -23,8 +23,8 @@ async def sort_data(request_data, user_data, callback):
     for el in user_data:
         user_date = str_to_date(
             date_str=(
-                f"{str(el['day'])}{SPLIT_SYM}"
-                f"{str(el['month'])}{SPLIT_SYM}{str(el['year'])}"
+                f"{str(el[0]['day'])}{SPLIT_SYM}"
+                f"{str(el[0]['month'])}{SPLIT_SYM}{str(el[0]['year'])}"
             )
         )
         await callback.message.answer(
@@ -32,11 +32,11 @@ async def sort_data(request_data, user_data, callback):
             f"{(user_data)} - {(start_date)} - {(end_date)}\n"
         )
         if user_date >= start_date and user_data <= end_date:
-            if request_data['kind'] == 'Доходы' and el['kind'] == 'Доходы':
-                sort_data.append(el)
-            elif request_data['kind'] == 'Расходы' and el['kind'] == 'Расходы':
-                sort_data.append(el)
+            if request_data['kind'] == 'Доходы' and el[0]['kind'] == 'Доходы':
+                sort_data.append(el[0])
+            elif request_data['kind'] == 'Расходы' and el[0]['kind'] == 'Расходы':
+                sort_data.append(el[0])
             else:
-                sort_data.append(el)
+                sort_data.append(el[0])
 
     return sort_data
