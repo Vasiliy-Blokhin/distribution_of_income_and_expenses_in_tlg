@@ -61,7 +61,9 @@ class SQLmain:
         with Session(bind=main_engine) as s:
 
             return self.correct_data_in_dict(data=s.execute(
-                sa.select('*').select_from(table).where(table.user_id == user_id)
+                sa.select('*').select_from(table).where(
+                    table.user_id == user_id
+                )
             ))
 
     @staticmethod
