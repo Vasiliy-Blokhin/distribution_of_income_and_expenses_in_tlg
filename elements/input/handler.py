@@ -14,12 +14,12 @@ from elements.message_builder import (
     date_instr,
     value_instr
 )
-from elements.module import (
+from elements.keyboard import (
     kind_builder,
     income_category_builder,
     expenses_category_builder,
-    get_current_date_str
 )
+from elements.module import get_current_date_str
 from elements.validators import date_validator
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql

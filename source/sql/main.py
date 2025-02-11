@@ -54,3 +54,11 @@ class SQLmain:
             for el in result:
                 data.append(el._asdict())
             return data
+
+    @classmethod
+    def get_data_on_user_id(self, table, user_id):
+        with Session(bind=main_engine) as s:
+
+            return self.correct_data_in_dict(data=s.execute(
+                sa.select('*').select_from(table).where(table.user_id == user_id)
+            ))

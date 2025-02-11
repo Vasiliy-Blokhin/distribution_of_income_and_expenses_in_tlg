@@ -15,11 +15,11 @@ from elements.message_builder import (
     date_instr,
     value_instr
 )
-from elements.module import (
+from elements.keyboard import (
     output_date_builder,
-    get_current_date_str,
     output_kind_builder
 )
+from elements.module import get_current_date_str, sort_data
 from elements.validators import date_validator, year_validator
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
@@ -113,6 +113,7 @@ async def different_years_and_dates(message: types.Message, state: FSMContext):
         await message.answer(error_message())
         await output(message)
 
+
 @output_router.message(OutputData.date_end)
 async def end_date(message: types.Message, state: FSMContext):
     try:
@@ -134,9 +135,12 @@ async def end_date(message: types.Message, state: FSMContext):
 async def result(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
 
-    data = await state.get_data()
+    request_data = await state.get_data()
+    user_data = sql.get_data_on_user_id(
+        table=MainTable,
+        user_id=callback.message.from_user.id
+    )
+
     await callback.message.answer(
-        f"{data['date_start']} - {data['date_end']}\n"
-        f"{data['kind']}\n"
-        f"{callback.message.from_user.id}"
+        len(sort_data(request_data, user_data))
     )
