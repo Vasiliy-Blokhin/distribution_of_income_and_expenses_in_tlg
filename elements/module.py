@@ -15,7 +15,7 @@ def str_to_date(date_str):
         return "Неверная дата"
 
 
-def sort_data(request_data, user_data, callback):
+def sort_data(request_data, user_data):
     start_date = str_to_date(request_data['date_start'])
     end_date = str_to_date(request_data['date_end'])
     sort_data = []
