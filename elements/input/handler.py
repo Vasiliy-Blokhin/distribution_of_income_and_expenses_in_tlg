@@ -138,35 +138,68 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
 async def input_value(message: types.Message, state: FSMContext):
     try:
         await state.update_data(value=float(message.text))
+        builder = InlineKeyboardBuilder()
+
+        builder.row(
+            types.InlineKeyboardButton(
+                text='Да',
+                callback_data='confirm' + SPLIT_SYM + 'Да'
+            )
+        )
+        builder.row(
+            types.InlineKeyboardButton(
+                text='Нет',
+                callback_data='confirm' + SPLIT_SYM + 'Нет'
+            )
+        )
+        data = await state.get_data()
+        date = data['date'].split(SPLIT_SYM)
+        await message.answer(
+            result_input_message(
+                date=data['date'],
+                category=data['category'],
+                value=data['value'],
+                kind=data['kind']
+            )
+        )
+        await message.answer('Подтвердите ввод данных:', reply_markup=builder.as_markup())
     except Exception:
         await message.answer(error_message())
         await state.clear()
 
-    data = await state.get_data()
-    user_id = message.from_user.id
-    date = data['date'].split(SPLIT_SYM)
-    in_data = [
-        {
-            'user_id': user_id,
-            'day': int(date[0]),
-            'month': int(date[1]),
-            'year': int(date[2]),
-            'kind': data['kind'],
-            'category': data['category'],
-            'value': data['value']
-        }
-    ]
-    await message.answer(
-        result_input_message(
-            date=data['date'],
-            name=user_id,
-            category=data['category'],
-            value=data['value'],
-            kind=data['kind']
+
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'confirm')
+async def input_category(callback: types.CallbackQuery, state: FSMContext):
+    command = callback.data.split(SPLIT_SYM)[1]
+    if command == 'Нет':
+        await state.clear()
+        await callback.message.answer('Отмена.')
+    else:
+        data = await state.get_data()
+        user_id = callback.message.from_user.id
+        date = data['date'].split(SPLIT_SYM)
+        in_data = [
+            {
+                'user_id': user_id,
+                'day': int(date[0]),
+                'month': int(date[1]),
+                'year': int(date[2]),
+                'kind': data['kind'],
+                'category': data['category'],
+                'value': data['value']
+            }
+        ]
+        await callback.message.answer(
+            result_input_message(
+                date=data['date'],
+                name=user_id,
+                category=data['category'],
+                value=data['value'],
+                kind=data['kind']
+            )
         )
-    )
-    sql.append_data(
-        table=MainTable,
-        data=in_data
-    )
-    await state.clear()
+        sql.append_data(
+            table=MainTable,
+            data=in_data
+        )
+        await state.clear()

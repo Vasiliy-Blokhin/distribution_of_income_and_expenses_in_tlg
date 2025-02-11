@@ -143,7 +143,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     sorted_data = sort_data(request_data, user_data)
 
     await callback.message.answer(
-        f"user id {callback.message.from_user.id}\n"
+        f"user id - {callback.message.from_user.id}\n"
         f"user data - {str(len(user_data))}\n"
         f"sorted data - {str(len(sorted_data))}"
     )
