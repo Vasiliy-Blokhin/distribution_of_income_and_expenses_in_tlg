@@ -32,7 +32,7 @@ def sort_data(request_data, user_data, callback):
                 sort_data.append(el)
             elif request_data['kind'] == 'Расходы' and el['kind'] == 'Расходы':
                 sort_data.append(el)
-            else:
+            elif request_data['kind'] == 'Все':
                 sort_data.append(el)
 
     return sort_data
