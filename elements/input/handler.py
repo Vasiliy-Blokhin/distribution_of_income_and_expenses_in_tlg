@@ -56,10 +56,8 @@ async def command_start_handler(message: Message) -> None:
 
 # ________________________________________________________________
 @input_router.message(Command('ввод'))
-async def input(message: types.Message, state: FSMContext):
+async def input(message: types.Message):
     """ Вывод сообщения - общей информации."""
-    state.set_state(InputData.user_id)
-    state.update_data(user_id=str(message.from_user.id))
     builder = InlineKeyboardBuilder()
 
     builder.row(
@@ -158,7 +156,7 @@ async def input_value(message: types.Message, state: FSMContext):
         data = await state.get_data()
         await message.answer(
             result_input_message(
-                user_id=data['user_id'],
+                user_id=str(message.from_user.id),
                 date=data['date'],
                 category=data['category'],
                 value=data['value'],
@@ -179,7 +177,7 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
         await callback.message.answer('Отмена.')
     else:
         data = await state.get_data()
-        user_id = callback.message.from_user.id
+        user_id = str(callback.from_user.id)
         date = data['date'].split(SPLIT_SYM)
         in_data = [
             {
