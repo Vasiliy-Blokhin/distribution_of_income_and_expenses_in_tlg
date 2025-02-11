@@ -189,15 +189,7 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
                 'value': data['value']
             }
         ]
-        await callback.message.answer(
-            result_input_message(
-                date=data['date'],
-                name=user_id,
-                category=data['category'],
-                value=data['value'],
-                kind=data['kind']
-            )
-        )
+        await callback.message.answer('Данные внесены.')
         sql.append_data(
             table=MainTable,
             data=in_data
