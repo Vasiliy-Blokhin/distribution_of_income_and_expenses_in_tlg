@@ -139,6 +139,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(kind=callback.data.split(SPLIT_SYM)[1])
 
     request_data = await state.get_data()
+    await callback.message.answer(str(request_data))
     user_data = sql.get_data_on_user_id(
         table=MainTable,
         user_id=str(request_data['user_id'])
