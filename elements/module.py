@@ -22,8 +22,10 @@ def sort_data(request_data, user_data):
 
     for el in user_data:
         user_date = str_to_date(
-            f"{str(el['day'])}{SPLIT_SYM}"
-            f"{str(el['month'])}{SPLIT_SYM}{str(el['year'])}"
+            date_str=(
+                f"{str(el['day'])}{SPLIT_SYM}"
+                f"{str(el['month'])}{SPLIT_SYM}{str(el['year'])}"
+            )
         )
         if user_date >= start_date and user_data <= end_date:
             if request_data['kind'] == 'Доходы' and el['kind'] == 'Доходы':
