@@ -15,7 +15,7 @@ def str_to_date(date_str):
         return "Неверная дата"
 
 
-async def sort_data(request_data, user_data, callback):
+def sort_data(request_data, user_data, callback):
     start_date = str_to_date(request_data['date_start'])
     end_date = str_to_date(request_data['date_end'])
     sort_data = []
@@ -27,11 +27,7 @@ async def sort_data(request_data, user_data, callback):
                 f"{str(el['month'])}{SPLIT_SYM}{str(el['year'])}"
             )
         )
-        await callback.message.answer(
-            f"{type(user_date)} - {type(start_date)} - {type(end_date)}\n"
-            f"{(user_data)} - {(start_date)} - {(end_date)}\n"
-        )
-        if user_date >= start_date and user_data <= end_date:
+        if user_date >= start_date and user_date <= end_date:
             if request_data['kind'] == 'Доходы' and el['kind'] == 'Доходы':
                 sort_data.append(el)
             elif request_data['kind'] == 'Расходы' and el['kind'] == 'Расходы':
