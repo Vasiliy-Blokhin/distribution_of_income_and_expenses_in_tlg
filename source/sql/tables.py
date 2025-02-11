@@ -18,7 +18,7 @@ class MainTable(Base):
     __tablename__ = 'main_table'
 
     id: Mapped[intpk]
-    user_id: Mapped[int]
+    user_id: Mapped[str]
     day: Mapped[int]
     month: Mapped[int]
     year: Mapped[int]

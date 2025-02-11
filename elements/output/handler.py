@@ -138,7 +138,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     request_data = await state.get_data()
     user_data = sql.get_data_on_user_id(
         table=MainTable,
-        user_id=int(callback.message.from_user.id)
+        user_id=str(callback.message.from_user.id)
     )
     sorted_data = sort_data(request_data, user_data)
 
