@@ -180,13 +180,13 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
         date = data['date'].split(SPLIT_SYM)
         in_data = [
             {
-                'user_id': user_id,
+                'user_id': int(user_id),
                 'day': int(date[0]),
                 'month': int(date[1]),
                 'year': int(date[2]),
-                'kind': data['kind'],
-                'category': data['category'],
-                'value': data['value']
+                'kind': str(data['kind']),
+                'category': str(data['category']),
+                'value': float(data['value'])
             }
         ]
         await callback.message.answer('Данные внесены.')
