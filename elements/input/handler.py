@@ -34,6 +34,7 @@ class InputData(StatesGroup):
     kind = State()
     category = State()
     value = State()
+    user_id = State()
 
 
 @input_router.message(CommandStart())
@@ -55,8 +56,10 @@ async def command_start_handler(message: Message) -> None:
 
 # ________________________________________________________________
 @input_router.message(Command('ввод'))
-async def input(message: types.Message):
+async def input(message: types.Message, state: FSMContext):
     """ Вывод сообщения - общей информации."""
+    state.set_state(InputData.user_id)
+    state.update_data(user_id=str(message.from_user.id))
     builder = InlineKeyboardBuilder()
 
     builder.row(
@@ -153,9 +156,9 @@ async def input_value(message: types.Message, state: FSMContext):
             )
         )
         data = await state.get_data()
-        date = data['date'].split(SPLIT_SYM)
         await message.answer(
             result_input_message(
+                user_id=data['user_id'],
                 date=data['date'],
                 category=data['category'],
                 value=data['value'],

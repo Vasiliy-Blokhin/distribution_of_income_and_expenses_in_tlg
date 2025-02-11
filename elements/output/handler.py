@@ -34,11 +34,14 @@ class OutputData(StatesGroup):
     date_end = State()
     kind = State()
     flag = State()
+    user_id = State()
 
 
 @output_router.message(Command('вывод'))
-async def output(message: types.Message):
+async def output(message: types.Message, state):
     """ Вывод сообщения - общей информации."""
+    state.set_state(OutputData.user_id)
+    state.update_data(user_id=str(message.from_user.id))
     await message.answer(
         'Выберите период просмотра: ',
         reply_markup=output_date_builder().as_markup()
@@ -138,7 +141,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     request_data = await state.get_data()
     user_data = sql.get_data_on_user_id(
         table=MainTable,
-        user_id=str(callback.message.from_user.id)
+        user_id=str(request_data['user_id'])
     )
     sorted_data = sort_data(request_data, user_data)
 
