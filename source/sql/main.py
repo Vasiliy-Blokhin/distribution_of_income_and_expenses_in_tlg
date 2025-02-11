@@ -43,17 +43,13 @@ class SQLmain:
             s.execute(sa.insert(table).values(data))
             s.commit()
 
-    @staticmethod
-    def get_all_data(table):
+    @classmethod
+    def get_all_data(self, table):
         with Session(bind=main_engine) as s:
-            result = s.execute(
-                sa.select('*').select_from(table)
-            ).all()
 
-            data = []
-            for el in result:
-                data.append(el._asdict())
-            return data
+            return self.correct_data_in_dict(data=s.execute(
+                sa.select('*').select_from(table)
+            ).all())
 
     @classmethod
     def get_data_on_user_id(self, table, user_id):
@@ -62,3 +58,10 @@ class SQLmain:
             return self.correct_data_in_dict(data=s.execute(
                 sa.select('*').select_from(table).where(table.user_id == user_id)
             ))
+
+    @staticmethod
+    def correct_data_in_dict(data):
+        result = []
+        for el in data:
+            result.append(el._asdict())
+        return result
