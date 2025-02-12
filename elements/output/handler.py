@@ -21,7 +21,7 @@ from elements.keyboard import (
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator
-from source.settings.settings import SPLIT_SYM, DP
+from source.settings.settings import SPLIT_SYM, DP, BOT
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
 
@@ -147,7 +147,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         sorted_data,
         request_data
     ))
-    await DP.send_document(
+    await BOT.send_document(
         callback.chat.id,
         generate_xlsx(
             sorted_data,

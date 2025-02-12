@@ -1,6 +1,6 @@
 from os import getenv
 import sys
-from aiogram import Dispatcher
+from aiogram import Dispatcher, Bot
 from dotenv import load_dotenv
 import logging
 
@@ -53,3 +53,4 @@ EXPENSES = '🟢 Доходы'
 ALL = '🟡 Все'
 
 DP = Dispatcher()
+BOT = Bot(TOKEN,)
