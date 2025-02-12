@@ -148,7 +148,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         request_data
     ))
     await BOT.send_document(
-        callback.chat.id,
+        callback.message.chat.id,
         generate_xlsx(
             sorted_data,
             request_data,
