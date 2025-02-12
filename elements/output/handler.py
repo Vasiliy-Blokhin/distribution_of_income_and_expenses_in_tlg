@@ -1,7 +1,7 @@
 from aiogram import types, F, Router
 from aiogram.filters import CommandStart
 from aiogram.filters import Command
-from aiogram.types import Message
+from aiogram.types import InputFile
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
@@ -147,10 +147,13 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         sorted_data,
         request_data
     ))
-    await callback.message.answer_document(
-        document=generate_xlsx(
+    file = InputFile(filename=(
+        f"{callback.from_user.id}-{request_data['date_start']}-"
+        f"{request_data['date_end']}-{request_data['kind']}"
+    ),
+        generate_xlsx(
             sorted_data,
             request_data,
             str(callback.from_user.id)
-        )
-    )
+        ))
+    await callback.message.answer_document(file)
