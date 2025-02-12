@@ -1,7 +1,7 @@
 from aiogram import types, F, Router
 from aiogram.filters import CommandStart
 from aiogram.filters import Command
-from aiogram.types import InputFile
+from aiogram.types import FSInputFile
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
@@ -154,4 +154,4 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     )
     generate_xlsx(sorted_data=sorted_data, file_name=file_name)
     with open(f"{file_name}.xlsx", 'rb') as file:
-        callback.message.answer_document(document=InputFile(file, file_name))
+        callback.message.answer_document(document=FSInputFile(file, file_name))
