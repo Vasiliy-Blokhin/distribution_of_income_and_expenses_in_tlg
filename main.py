@@ -3,9 +3,9 @@ import asyncio
 import logging
 import sys
 
-from aiogram import Bot
+from aiogram import Bot, Dispatcher
 
-from source.settings.settings import TOKEN, handler, DP
+from source.settings.settings import TOKEN, handler
 from source.sql.main import SQLmain as sql
 from elements.input.handler import input_router
 from elements.output.handler import output_router
@@ -18,11 +18,12 @@ logger.addHandler(handler)
 async def main() -> None:
     """ Выполнение основной части работы бота."""
     bot = Bot(TOKEN,)
-    DP.include_routers(
+    dp = Dispatcher()
+    dp.include_routers(
         input_router,
         output_router
     )
-    await DP.start_polling(bot)
+    await dp.start_polling(bot)
 
 
 if __name__ == '__main__':

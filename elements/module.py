@@ -41,7 +41,7 @@ def sort_data(request_data, user_data):
     return sort_data
 
 
-def generate_xlsx(sorted_data, request_data, file_name):
+def generate_xlsx(sorted_data, file_name):
 
     workbook = xlsxwriter.Workbook(f'{file_name}.xlsx')
     worksheet = workbook.add_worksheet()
@@ -54,3 +54,4 @@ def generate_xlsx(sorted_data, request_data, file_name):
         worksheet.write_row(row, col, entry.values())
 
     workbook.close()
+    return workbook
