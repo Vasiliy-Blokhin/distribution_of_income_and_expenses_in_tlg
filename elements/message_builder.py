@@ -73,20 +73,20 @@ def statistic_message(sorted_data, request_data):
         return (
             f"📊 Доходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{income_value}"
+            f"{income_value} руб."
         )
     elif request_data['kind'] == 'Расходы':
         return (
             f"📊 Расходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{expenses_value}"
+            f"{expenses_value} руб."
         )
     elif request_data['kind'] == 'Все':
         return (
             f"📊 За период {request_data['date_start']}"
             f" - {request_data['date_end']}:\n\n"
-            f"👉 Доходы - {income_value};\n"
-            f"👉 Расходы - {expenses_value};\n"
-            f"👉 Разница - {income_value - expenses_value};\n"
-            f"👉 Соотношение - {100 * (1 - expenses_value/income_value)};\n"
+            f"👉 Доходы - {income_value} руб.;\n"
+            f"👉 Расходы - {expenses_value} руб.;\n"
+            f"👉 Разница - {income_value - expenses_value} руб.;\n"
+            f"👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n"
         )
