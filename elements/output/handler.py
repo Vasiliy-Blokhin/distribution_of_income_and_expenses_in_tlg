@@ -148,10 +148,10 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         f"-{request_data['date_end']}-{request_data['kind']}"
     )
     generate_xlsx(sorted_data=sorted_data, file_name=file_name)
-    callback.message.answer_document(
+    await callback.message.answer_document(
         document=FSInputFile(f"{file_name}.xlsx", file_name)
     )
-    callback.message.answer('file is send')
+    await callback.message.answer('file is send')
 
     await callback.message.answer(statistic_message(
         sorted_data,
