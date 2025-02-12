@@ -150,15 +150,14 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
 
     file_name = (
         f"{str(callback.from_user.id)}-{request_data['date_start']}-"
-        f"{request_data['date_end']}-{request_data['kind']}"
+        f"{request_data['date_end']}-{request_data['kind']}.xlsx"
     )
     generate_xlsx(
             sorted_data,
             request_data,
             file_name
     )
-    file = InputFile(file_name, 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     await BOT.send_document(
         callback.message.chat.id,
-        file
+        file_name
     )
