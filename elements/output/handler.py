@@ -150,8 +150,8 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
 
     file_name = (
         f"{callback.from_user.id}-{request_data['date_start']}"
-        f"-{request_data['date_end']}-{request_data['kind']}.xlsx"
+        f"-{request_data['date_end']}-{request_data['kind']}"
     )
     generate_xlsx(sorted_data=sorted_data, file_name=file_name)
-    file = InputFile(filename=file_name)
-    callback.message.answer_document(document=file)
+    file = open(file_name, 'rb')
+    callback.message.answer_document(document=InputFile(file))
