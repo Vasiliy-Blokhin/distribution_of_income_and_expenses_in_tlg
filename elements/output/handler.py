@@ -19,7 +19,7 @@ from elements.keyboard import (
     output_date_builder,
     output_kind_builder
 )
-from elements.module import get_current_date_str, sort_data
+from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator
 from source.settings.settings import SPLIT_SYM
 from source.sql.main import SQLmain as sql
@@ -147,3 +147,10 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         sorted_data,
         request_data
     ))
+    await callback.message.answer_document(
+        document=generate_xlsx(
+            sorted_data,
+            request_data,
+            str(callback.from_user.id)
+        )
+    )

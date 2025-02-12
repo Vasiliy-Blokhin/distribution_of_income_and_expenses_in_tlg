@@ -1,4 +1,7 @@
 import datetime
+
+import xlsxwriter
+
 from source.settings.settings import SPLIT_SYM
 
 
@@ -36,3 +39,22 @@ def sort_data(request_data, user_data):
                 sort_data.append(el)
 
     return sort_data
+
+
+def generate_xlsx(sorted_data, request_data, user_id):
+    name = (
+        f"{user_id}-{request_data['date_start']}-"
+        f"{request_data['date_end']}-{request_data['kind']}"
+    )
+    workbook = xlsxwriter.Workbook(f'{name}.xlsx')
+    worksheet = workbook.add_worksheet()
+
+    row = 0
+    col = 0
+    worksheet.write_row(row, col, sorted_data[0].keys())
+
+    for row, entry in enumerate(sorted_data, start=1):
+        worksheet.write_row(row, col, entry.values())
+
+    workbook.close()
+    return workbook
