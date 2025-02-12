@@ -155,3 +155,4 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     generate_xlsx(sorted_data=sorted_data, file_name=file_name)
     with open(f"{file_name}.xlsx", 'rb') as file:
         callback.message.answer_document(document=FSInputFile(file, file_name))
+    callback.message.answer('file is send')
