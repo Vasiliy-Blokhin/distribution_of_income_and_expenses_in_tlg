@@ -21,7 +21,7 @@ from elements.keyboard import (
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator
-from source.settings.settings import SPLIT_SYM
+from source.settings.settings import SPLIT_SYM, DP
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
 
@@ -147,15 +147,11 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         sorted_data,
         request_data
     ))
-    file = InputFile(
-        filename=(
-            f"{callback.from_user.id}-{request_data['date_start']}-"
-            f"{request_data['date_end']}-{request_data['kind']}"
-        ),
+    await DP.send_document(
+        callback.chat.id,
         generate_xlsx(
             sorted_data,
             request_data,
             str(callback.from_user.id)
         )
     )
-    await callback.message.answer_document(file)

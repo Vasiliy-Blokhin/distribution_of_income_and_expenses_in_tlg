@@ -1,6 +1,6 @@
 from os import getenv
 import sys
-
+from aiogram import Dispatcher
 from dotenv import load_dotenv
 import logging
 
@@ -51,3 +51,5 @@ SPLIT_SYM = '.'
 INCOME = '🔴 Расходы'
 EXPENSES = '🟢 Доходы'
 ALL = '🟡 Все'
+
+DP = Dispatcher()
