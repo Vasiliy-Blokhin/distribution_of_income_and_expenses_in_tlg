@@ -3,7 +3,6 @@ from aiogram.filters import CommandStart
 from aiogram.filters import Command
 from aiogram.types import Message
 from aiogram.utils.keyboard import ReplyKeyboardBuilder
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
 
@@ -61,7 +60,7 @@ async def command_start_handler(message: Message) -> None:
 async def input(message: types.Message):
     """ Вывод сообщения - общей информации."""
     await message.answer(
-        'Выберите ввод даты: ',
+        '📝 Выберите ввод даты: ',
         reply_markup=input_date_builder().as_markup()
     )
 
@@ -70,7 +69,7 @@ async def input(message: types.Message):
 async def create_date(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.date)
     if callback.data.split(SPLIT_SYM)[1] == 'date':
-        await callback.message.answer('Введите дату:')
+        await callback.message.answer('📝 Введите дату:')
         await callback.message.answer(date_instr())
     else:
         await state.update_data(date=get_current_date_str())
@@ -90,7 +89,7 @@ async def input_date(message: types.Message, state: FSMContext):
         await state.update_data(date=message.text)
         await state.set_state(InputData.kind)
         await message.answer(
-            'Выберите тип операции: ',
+            '📝 Выберите тип операции: ',
             reply_markup=kind_builder().as_markup()
         )
     except Exception:
@@ -105,12 +104,12 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
     await state.set_state(InputData.category)
     if callback.data.split(SPLIT_SYM)[1] == 'Доходы':
         await callback.message.answer(
-            'Выберите категорию операции: ',
+            '📝 Выберите категорию операции: ',
             reply_markup=income_category_builder().as_markup()
         )
     else:
         await callback.message.answer(
-            'Выберите категорию операции: ',
+            '📝 Выберите категорию операции: ',
             reply_markup=expenses_category_builder().as_markup()
         )
 
@@ -119,7 +118,7 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
 async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     await state.set_state(InputData.value)
-    await callback.message.answer('Введите сумму:')
+    await callback.message.answer('📝 Введите сумму:')
     await callback.message.answer(value_instr())
 
 
@@ -138,7 +137,7 @@ async def input_value(message: types.Message, state: FSMContext):
             )
         )
         await message.answer(
-            'Подтвердите ввод данных:',
+            '📈 Подтвердите ввод данных:',
             reply_markup=confirm_builder().as_markup()
         )
     except Exception:
@@ -151,7 +150,7 @@ async def input_confirm(callback: types.CallbackQuery, state: FSMContext):
     command = callback.data.split(SPLIT_SYM)[1]
     if command == 'Нет':
         await state.clear()
-        await callback.message.answer('Отмена.')
+        await callback.message.answer('🔴 Отмена.')
     else:
         data = await state.get_data()
         user_id = str(callback.from_user.id)
@@ -167,7 +166,7 @@ async def input_confirm(callback: types.CallbackQuery, state: FSMContext):
                 'value': float(data['value'])
             }
         ]
-        await callback.message.answer('Данные внесены.')
+        await callback.message.answer('🟢 Данные внесены.')
         sql.append_data(
             table=MainTable,
             data=in_data

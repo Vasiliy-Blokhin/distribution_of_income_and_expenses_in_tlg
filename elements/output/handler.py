@@ -40,7 +40,7 @@ class OutputData(StatesGroup):
 async def output(message: types.Message):
     """ Вывод сообщения - общей информации."""
     await message.answer(
-        'Выберите период просмотра: ',
+        '📝 Выберите период просмотра: ',
         reply_markup=output_date_builder().as_markup()
     )
 
@@ -57,7 +57,7 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
         await state.update_data(date_end=current_date)
         await state.set_state(OutputData.kind)
         await callback.message.answer(
-            'Введите тип операций:',
+            '📝 Введите тип операций:',
             reply_markup=output_kind_builder().as_markup()
         )
     elif command[1] == 'За текущий год':
@@ -67,20 +67,20 @@ async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
         await state.update_data(date_end=current_date)
         await state.set_state(OutputData.kind)
         await callback.message.answer(
-            'Введите тип операций:',
+            '📝 Введите тип операций:',
             reply_markup=output_kind_builder().as_markup()
         )
     elif command[1] == 'За определенный год':
         await state.set_state(OutputData.flag)
         await state.update_data(flag=1)
         await state.set_state(OutputData.date_start)
-        await callback.message.answer('Введите год:')
+        await callback.message.answer('📝 Введите год:')
         await callback.message.answer(year_instr())
     elif command[1] == 'Произвольная дата':
         await state.set_state(OutputData.flag)
         await state.update_data(flag=2)
         await state.set_state(OutputData.date_start)
-        await callback.message.answer('Введите стартовую дату:')
+        await callback.message.answer('📝 Введите стартовую дату:')
         await callback.message.answer(date_instr())
 
 
@@ -99,7 +99,7 @@ async def different_years_and_dates(message: types.Message, state: FSMContext):
             await state.update_data(date_end=end_date)
             await state.set_state(OutputData.kind)
             await message.answer(
-                'Введите тип операций:',
+                '📝 Введите тип операций:',
                 reply_markup=output_kind_builder().as_markup()
             )
         elif flag['flag'] == 2:
@@ -108,7 +108,7 @@ async def different_years_and_dates(message: types.Message, state: FSMContext):
             else:
                 raise Exception
             await state.set_state(OutputData.date_end)
-            await message.answer('Введите конечную дату:')
+            await message.answer('📝 Введите конечную дату:')
             await message.answer(date_instr())
     except Exception:
         await message.answer(error_message())
@@ -124,7 +124,7 @@ async def end_date(message: types.Message, state: FSMContext):
             raise Exception
         await state.set_state(OutputData.kind)
         await message.answer(
-            'Введите тип операций:',
+            '📝 Введите тип операций:',
             reply_markup=output_kind_builder().as_markup()
         )
     except Exception:
