@@ -143,11 +143,6 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     )
     sorted_data = sort_data(request_data, user_data)
 
-    await callback.message.answer(statistic_message(
-        sorted_data,
-        request_data
-    ))
-
     file_name = (
         f"{callback.from_user.id}-{request_data['date_start']}"
         f"-{request_data['date_end']}-{request_data['kind']}"
@@ -157,3 +152,8 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         document=FSInputFile(f"{file_name}.xlsx", file_name)
     )
     callback.message.answer('file is send')
+
+    await callback.message.answer(statistic_message(
+        sorted_data,
+        request_data
+    ))
