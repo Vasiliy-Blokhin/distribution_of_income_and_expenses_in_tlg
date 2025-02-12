@@ -41,12 +41,9 @@ def sort_data(request_data, user_data):
     return sort_data
 
 
-def generate_xlsx(sorted_data, request_data, user_id):
-    name = (
-        f"{user_id}-{request_data['date_start']}-"
-        f"{request_data['date_end']}-{request_data['kind']}"
-    )
-    workbook = xlsxwriter.Workbook(f'{name}.xlsx')
+def generate_xlsx(sorted_data, request_data, file_name):
+
+    workbook = xlsxwriter.Workbook(f'{file_name}.xlsx')
     worksheet = workbook.add_worksheet()
 
     row = 0
@@ -57,4 +54,3 @@ def generate_xlsx(sorted_data, request_data, user_id):
         worksheet.write_row(row, col, entry.values())
 
     workbook.close()
-    return workbook
