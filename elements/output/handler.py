@@ -13,7 +13,7 @@ from elements.message_builder import (
     year_instr,
     error_message,
     date_instr,
-    value_instr
+    statistic_message
 )
 from elements.keyboard import (
     output_date_builder,
@@ -143,8 +143,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     )
     sorted_data = sort_data(request_data, user_data)
 
-    await callback.message.answer(
-        f"user id - {callback.from_user.id}\n"
-        f"user data - {str(len(user_data))}\n"
-        f"sorted data - {str(len(sorted_data))}"
-    )
+    await callback.message.answer(statistic_message(
+        sorted_data,
+        request_data
+    ))

@@ -18,6 +18,8 @@ from elements.keyboard import (
     kind_builder,
     income_category_builder,
     expenses_category_builder,
+    input_date_builder,
+    confirm_builder
 )
 from elements.module import get_current_date_str
 from elements.validators import date_validator
@@ -58,23 +60,9 @@ async def command_start_handler(message: Message) -> None:
 @input_router.message(Command('ввод'))
 async def input(message: types.Message):
     """ Вывод сообщения - общей информации."""
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Сегодня',
-            callback_data='idate' + SPLIT_SYM + 'today'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Ввести вручную',
-            callback_data='idate' + SPLIT_SYM + 'date'
-        )
-    )
     await message.answer(
         'Выберите ввод даты: ',
-        reply_markup=builder.as_markup()
+        reply_markup=input_date_builder().as_markup()
     )
 
 
@@ -139,20 +127,6 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
 async def input_value(message: types.Message, state: FSMContext):
     try:
         await state.update_data(value=float(message.text))
-        builder = InlineKeyboardBuilder()
-
-        builder.row(
-            types.InlineKeyboardButton(
-                text='Да',
-                callback_data='confirm' + SPLIT_SYM + 'Да'
-            )
-        )
-        builder.row(
-            types.InlineKeyboardButton(
-                text='Нет',
-                callback_data='confirm' + SPLIT_SYM + 'Нет'
-            )
-        )
         data = await state.get_data()
         await message.answer(
             result_input_message(
@@ -163,14 +137,17 @@ async def input_value(message: types.Message, state: FSMContext):
                 kind=data['kind']
             )
         )
-        await message.answer('Подтвердите ввод данных:', reply_markup=builder.as_markup())
+        await message.answer(
+            'Подтвердите ввод данных:',
+            reply_markup=confirm_builder().as_markup()
+        )
     except Exception:
         await message.answer(error_message())
         await state.clear()
 
 
 @input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'confirm')
-async def input_category(callback: types.CallbackQuery, state: FSMContext):
+async def input_confirm(callback: types.CallbackQuery, state: FSMContext):
     command = callback.data.split(SPLIT_SYM)[1]
     if command == 'Нет':
         await state.clear()

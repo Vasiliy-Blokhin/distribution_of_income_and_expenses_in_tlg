@@ -174,6 +174,24 @@ def output_kind_builder() -> InlineKeyboardBuilder:
     return builder
 
 
+def input_date_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Сегодня',
+            callback_data='idate' + SPLIT_SYM + 'today'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Ввести вручную',
+            callback_data='idate' + SPLIT_SYM + 'date'
+        )
+    )
+    return builder
+
+
 def output_date_builder() -> InlineKeyboardBuilder:
     builder = InlineKeyboardBuilder()
 
@@ -202,4 +220,22 @@ def output_date_builder() -> InlineKeyboardBuilder:
         )
     )
     builder.adjust(2)
+    return builder
+
+
+def confirm_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Да',
+            callback_data='confirm' + SPLIT_SYM + 'Да'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Нет',
+            callback_data='confirm' + SPLIT_SYM + 'Нет'
+        )
+    )
     return builder
