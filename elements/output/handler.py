@@ -149,7 +149,10 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         sorted_data,
         request_data
     ))
-    await callback.message.answer('📝 Отправить эксель документ с данными операций?')
+    await callback.message.answer(
+        '📝 Отправить эксель документ с данными операций?',
+        reply_markup=confirm_builder().as_markup()
+    )
 
 
 @output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'confirm')
