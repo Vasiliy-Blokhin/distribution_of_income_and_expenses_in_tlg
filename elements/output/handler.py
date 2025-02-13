@@ -1,17 +1,12 @@
 import os
 
 from aiogram import types, F, Router
-from aiogram.filters import CommandStart
 from aiogram.filters import Command
 from aiogram.types import FSInputFile
-from aiogram.utils.keyboard import ReplyKeyboardBuilder
-from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram.fsm.state import State, StatesGroup
 from aiogram.fsm.context import FSMContext
-import datetime
 
 from elements.message_builder import (
-    start_message,
     year_instr,
     error_message,
     date_instr,

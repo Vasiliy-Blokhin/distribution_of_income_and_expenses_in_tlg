@@ -66,6 +66,22 @@ class SQLmain:
                 )
             ))
 
+    @classmethod
+    def get_data_on_id(self, table, id):
+        with Session(bind=main_engine) as s:
+
+            return self.correct_data_in_dict(data=s.execute(
+                sa.select('*').select_from(table).where(
+                    table.id == id
+                )
+            ))
+
+    @classmethod
+    def delete_operation(self, table, id):
+        with Session(bind=main_engine) as s:
+
+            return s.delete(s.query(table).get(id))
+
     @staticmethod
     def correct_data_in_dict(data):
         result = []

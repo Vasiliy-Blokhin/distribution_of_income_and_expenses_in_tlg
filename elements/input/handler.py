@@ -44,11 +44,14 @@ async def command_start_handler(message: Message) -> None:
     Стартовый набор команд (сообщений).
     """
     builder = ReplyKeyboardBuilder()
-    builder.row(  # Вывод информации о весах.
+    builder.row(
         types.KeyboardButton(text='/ввод',)
     )
-    builder.add(  # Вывод информации о весах.
+    builder.add(
         types.KeyboardButton(text='/вывод',)
+    )
+    builder.add(
+        types.KeyboardButton(text='/удалить',)
     )
     await message.answer(  # Сообщение старт.
         start_message(message.from_user.first_name),

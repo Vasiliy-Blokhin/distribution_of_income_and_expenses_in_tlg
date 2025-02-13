@@ -49,3 +49,12 @@ async def year_validator(value):
         return True
     except Exception:
         return False
+
+
+async def id_validator(value):
+    try:
+        if not isinstance(value, int) or value <= 0:
+            raise Exception
+        return True
+    except Exception:
+        return False
