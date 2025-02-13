@@ -56,13 +56,14 @@ async def input_date(message: types.Message, state: FSMContext):
         else:
             raise Exception
         id = await state.get_data()['id']
-        operation = sql.get_data_on_id(
-            table=MainTable,
-            id=id
-        )[0]
     except Exception:
-        if operation['user_id'] == message.from_user.id:
-            sql.delete_operation(table=MainTable, id=id)
-            await message.answer('🟢 Удалено')
-        else:
-            await message.answer(error_message())
+        await message.answer(error_message())
+    operation = sql.get_data_on_id(
+        table=MainTable,
+        id=id
+    )[0]
+    if operation['user_id'] == message.from_user.id:
+        sql.delete_operation(table=MainTable, id=id)
+        await message.answer('🟢 Удалено')
+    else:
+        await message.answer(error_message())
