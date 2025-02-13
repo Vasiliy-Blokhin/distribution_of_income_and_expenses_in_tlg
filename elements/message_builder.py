@@ -93,7 +93,7 @@ def statistic_message(sorted_data, request_data):
         for key, value in income_dict.items():
             if value:
                 result += (
-                    f'{key} - {value} руб.'
+                    f'{key} - {value} руб.\n'
                 )
 
         return result
@@ -108,12 +108,12 @@ def statistic_message(sorted_data, request_data):
         result = (
             f"📊 Расходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{income_value} руб.\n\n"
+            f"{expenses_value} руб.\n\n"
         )
         for key, value in expenses_dict.items():
             if value:
                 result += (
-                    f'{key} - {value} руб.'
+                    f'{key} - {value} руб.\n'
                 )
 
         return result
