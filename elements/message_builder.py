@@ -69,6 +69,8 @@ def result_input_message(date, kind, category, value, user_id):
 def statistic_message(sorted_data, request_data):
     income_value = 0
     expenses_value = 0
+    income_dict = CATEGORY_INCOME_DICT
+    expenses_dict = CATEGORY_EXPENSES_DICT
 
     for el in sorted_data:
         if el['kind'] == 'Доходы':
@@ -77,21 +79,18 @@ def statistic_message(sorted_data, request_data):
             expenses_value += el['value']
 
     if request_data['kind'] == 'Доходы':
-        result_dict = {}
         for el in sorted_data:
-            for key, value in CATEGORY_INCOME_DICT.items():
+            for key, value in income_dict.items():
                 if el['category'] == key:
-                    if key in result_dict:
-                        result_dict[key] += el['value']
-                    else:
-                        result_dict[key] = el['value']
+                    value += el['value']
+                income_dict[key] = value
 
         result = (
             f"📊 Доходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
             f"{income_value} руб.\n\n"
         )
-        for key, value in result_dict.items():
+        for key, value in income_dict.items():
             if value:
                 result += (
                     f'{key} - {value} руб.\n'
@@ -100,21 +99,18 @@ def statistic_message(sorted_data, request_data):
         return result
 
     elif request_data['kind'] == 'Расходы':
-        result_dict = {}
         for el in sorted_data:
-            for key, value in CATEGORY_EXPENSES_DICT.items():
+            for key, value in expenses_dict.items():
                 if el['category'] == key:
-                    if key in result_dict:
-                        result_dict[key] += el['value']
-                    else:
-                        result_dict[key] = el['value']
+                    value += el['value']
+                income_dict[key] = value
 
         result = (
             f"📊 Расходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{expenses_value} руб.\n\n"
+            f"{income_value} руб.\n\n"
         )
-        for key, value in result_dict.items():
+        for key, value in expenses_dict.items():
             if value:
                 result += (
                     f'{key} - {value} руб.\n'
