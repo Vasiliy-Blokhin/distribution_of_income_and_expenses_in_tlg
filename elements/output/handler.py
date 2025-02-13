@@ -19,7 +19,8 @@ from elements.message_builder import (
 )
 from elements.keyboard import (
     output_date_builder,
-    output_kind_builder
+    output_kind_builder,
+    confirm_builder
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator
@@ -144,19 +145,34 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         user_id=str(callback.from_user.id)
     )
     sorted_data = sort_data(request_data, user_data)
-
-    file_name = (
-        f"{callback.from_user.id}-{request_data['date_start']}"
-        f"-{request_data['date_end']}-{request_data['kind']}"
-    )
-    generate_xlsx(sorted_data=sorted_data, file_name=file_name)
-
     await callback.message.answer(statistic_message(
         sorted_data,
         request_data
     ))
-    await callback.message.answer_document(
-        document=FSInputFile(f"{file_name}.xlsx")
-    )
+    await callback.message.answer('📝 Отправить эксель документ с данными операций?')
 
-    os.remove(BASE_DIR + file_name + ".xlsx")
+
+@output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'confirm')
+async def exel_sender(callback: types.CallbackQuery, state: FSMContext):
+    if callback.data.split(SPLIT_SYM)[1] == 'Да':
+        request_data = await state.get_data()
+        user_data = sql.get_data_on_user_id(
+            table=MainTable,
+            user_id=str(callback.from_user.id)
+        )
+        sorted_data = sort_data(request_data, user_data)
+
+        file_name = (
+            f"{callback.from_user.id}-{request_data['date_start']}"
+            f"-{request_data['date_end']}-{request_data['kind']}"
+        )
+        generate_xlsx(sorted_data=sorted_data, file_name=file_name)
+
+        await callback.message.answer_document(
+            document=FSInputFile(f"{file_name}.xlsx")
+        )
+
+        os.remove(BASE_DIR + file_name + ".xlsx")
+        await callback.message.answer('🟢 Отправлено.')
+    else:
+        await callback.message.answer('🔴 Отменено.')
