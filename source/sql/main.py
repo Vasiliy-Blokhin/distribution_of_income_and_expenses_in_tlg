@@ -80,7 +80,8 @@ class SQLmain:
     def delete_operation(self, table, id):
         with Session(bind=main_engine) as s:
 
-            return s.delete(s.query(table).get(id))
+            s.delete(s.query(table).get(id))
+            s.commit()
 
     @staticmethod
     def correct_data_in_dict(data):
