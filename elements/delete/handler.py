@@ -61,7 +61,7 @@ async def input_date(message: types.Message, state: FSMContext):
             table=MainTable,
             id=id
         )[0]
-        await message.answer(f'{operation['user_id']} - {message.from_user.id}')
+        await message.answer(f'{operation["user_id"]} - {message.from_user.id}')
         if operation['user_id'] == message.from_user.id:
             sql.delete_operation(table=MainTable, id=id)
             await message.answer('🟢 Удалено')
