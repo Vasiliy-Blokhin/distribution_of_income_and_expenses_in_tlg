@@ -55,9 +55,10 @@ async def input_date(message: types.Message, state: FSMContext):
             await state.update_data(id=message.text)
         else:
             raise Exception
-        id = await state.get_data()['id']
     except Exception:
         await message.answer(error_message())
+
+    id = await state.get_data()['id']
     operation = sql.get_data_on_id(
         table=MainTable,
         id=id
