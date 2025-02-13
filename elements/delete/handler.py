@@ -58,7 +58,7 @@ async def input_date(message: types.Message, state: FSMContext):
     except Exception:
         await message.answer(error_message())
 
-    id = await state.get_data()['id']
+    id = message.text
     operation = sql.get_data_on_id(
         table=MainTable,
         id=id
