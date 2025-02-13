@@ -51,7 +51,7 @@ async def output(message: types.Message, state: FSMContext):
 @delete_router.message(DeleteData.id)
 async def input_date(message: types.Message, state: FSMContext):
     try:
-        if await id_validator(message.text):
+        if await id_validator(int(message.text)):
             await state.update_data(id=message.text)
         else:
             raise Exception
@@ -62,7 +62,7 @@ async def input_date(message: types.Message, state: FSMContext):
             id=id
         )[0]
         await message.answer(f'{operation["user_id"]} - {message.from_user.id}')
-        if operation['user_id'] == message.from_user.id:
+        if int(operation['user_id']) == int(message.from_user.id):
             sql.delete_operation(table=MainTable, id=id)
             await message.answer('🟢 Удалено')
         else:
