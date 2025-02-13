@@ -51,7 +51,7 @@ async def output(message: types.Message):
 async def input_date(message: types.Message, state: FSMContext):
     try:
         await state.set_state(DeleteData.id)
-        if await id_validator():
+        if await id_validator(message.text):
             await state.update_data(id=message.text)
         else:
             raise Exception
@@ -63,5 +63,6 @@ async def input_date(message: types.Message, state: FSMContext):
     except Exception:
         if operation['user_id'] == message.from_user.id:
             sql.delete_operation(table=MainTable, id=id)
+            await message.answer('🟢 Удалено')
         else:
             await message.answer(error_message())
