@@ -15,25 +15,8 @@ handler.setFormatter(formater)
 load_dotenv()
 TOKEN = getenv('BOT_TOKEN')
 
+BASE_DIR = getenv('BASE_DIR')
 
-# Параметры для вывода сообщений.
-PARAMS_ALL = {
-    'SECID': 'Код',
-    'SHORTNAME': 'Название',
-    'UPDATETIME': 'Время последнего обновления',
-    'LAST': 'Последняя цена (за акцию)',
-    'DATAUPDATE': 'Время последнего обновления базы данных',
-    'CURRENCYID': 'Валюта',
-    'FILTER_SCORE': 'Значение конечной фильтрации',
-    'STATUS_FILTER': 'Статус фильтрации'
-}
-STATUS_UP = 'вероятность роста'
-STATUS_DOWN = 'вероятность падения'
-STATUS_MEDIUM = 'среднее значение'
-
-STOP_TRADING = 'торги приостановлены'
-RUN_TRADING = 'торги идут'
-STATUS_MEDIUM = 'среднее значение'
 SPLIT_SYM = '-'
 
 db_connector = getenv('db_connector')

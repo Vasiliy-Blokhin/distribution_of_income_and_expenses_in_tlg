@@ -1,3 +1,5 @@
+import os
+
 from aiogram import types, F, Router
 from aiogram.filters import CommandStart
 from aiogram.filters import Command
@@ -21,7 +23,7 @@ from elements.keyboard import (
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator
-from source.settings.settings import SPLIT_SYM
+from source.settings.settings import SPLIT_SYM, BASE_DIR
 from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
 
@@ -156,3 +158,5 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     await callback.message.answer_document(
         document=FSInputFile(f"{file_name}.xlsx")
     )
+
+    os.remove(BASE_DIR + file_name)
