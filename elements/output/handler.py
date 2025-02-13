@@ -159,4 +159,4 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         document=FSInputFile(f"{file_name}.xlsx")
     )
 
-    os.remove(BASE_DIR + file_name)
+    os.remove(BASE_DIR + file_name + ".xlsx")
