@@ -155,7 +155,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     )
 
 
-@output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'confirm')
+@output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'oconfirm')
 async def exel_sender(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'Да':
         request_data = await state.get_data()

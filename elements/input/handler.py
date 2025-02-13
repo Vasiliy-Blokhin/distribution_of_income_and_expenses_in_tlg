@@ -145,7 +145,7 @@ async def input_value(message: types.Message, state: FSMContext):
         await state.clear()
 
 
-@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'confirm')
+@input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'iconfirm')
 async def input_confirm(callback: types.CallbackQuery, state: FSMContext):
     command = callback.data.split(SPLIT_SYM)[1]
     if command == 'Нет':
