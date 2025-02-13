@@ -103,7 +103,7 @@ def statistic_message(sorted_data, request_data):
             for key, value in expenses_dict.items():
                 if el['category'] == key:
                     value += el['value']
-                income_dict[key] = value
+                expenses_dict[key] = value
 
         result = (
             f"📊 Расходы за период {request_data['date_start']}"
