@@ -125,19 +125,37 @@ def output_date_builder() -> InlineKeyboardBuilder:
     return builder
 
 
-def confirm_builder():
+def input_confirm_builder():
     builder = InlineKeyboardBuilder()
 
     builder.row(
         types.InlineKeyboardButton(
             text='Да',
-            callback_data='confirm' + SPLIT_SYM + 'Да'
+            callback_data='iconfirm' + SPLIT_SYM + 'Да'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Нет',
-            callback_data='confirm' + SPLIT_SYM + 'Нет'
+            callback_data='iconfirm' + SPLIT_SYM + 'Нет'
+        )
+    )
+    return builder
+
+
+def output_confirm_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Да',
+            callback_data='oconfirm' + SPLIT_SYM + 'Да'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Нет',
+            callback_data='oconfirm' + SPLIT_SYM + 'Нет'
         )
     )
     return builder

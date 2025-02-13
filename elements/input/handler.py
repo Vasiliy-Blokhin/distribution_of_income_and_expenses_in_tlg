@@ -18,7 +18,7 @@ from elements.keyboard import (
     income_category_builder,
     expenses_category_builder,
     input_date_builder,
-    confirm_builder
+    input_confirm_builder
 )
 from elements.module import get_current_date_str
 from elements.validators import date_validator
@@ -138,7 +138,7 @@ async def input_value(message: types.Message, state: FSMContext):
         )
         await message.answer(
             '📈 Подтвердите ввод данных:',
-            reply_markup=confirm_builder().as_markup()
+            reply_markup=input_confirm_builder().as_markup()
         )
     except Exception:
         await message.answer(error_message())
