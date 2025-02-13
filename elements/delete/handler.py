@@ -37,7 +37,7 @@ class DeleteData(StatesGroup):
 
 
 @delete_router.message(Command('удалить'))
-async def output(message: types.Message):
+async def output(message: types.Message, state: FSMContext):
     """ Вывод сообщения - общей информации."""
     await message.answer(
         (
@@ -45,12 +45,12 @@ async def output(message: types.Message):
             '* Указано в эксель таблицах.'
         ),
     )
+    await state.set_state(DeleteData.id)
 
 
 @delete_router.message(DeleteData.id)
 async def input_date(message: types.Message, state: FSMContext):
     try:
-        await state.set_state(DeleteData.id)
         if await id_validator(message.text):
             await state.update_data(id=message.text)
         else:
