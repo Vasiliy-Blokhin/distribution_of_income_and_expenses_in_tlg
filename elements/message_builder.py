@@ -78,6 +78,13 @@ def statistic_message(sorted_data, request_data):
         elif el['kind'] == 'Расходы':
             expenses_value += el['value']
 
+    if income_value == 0 and request_data['kind'] == 'Доходы':
+        return '🔴 У вас нет зарегистрированных доходов.'
+    elif expenses_value == 0 and request_data['kind'] == 'Расходы':
+        return '🔴 У вас нет зарегистрированных расходов.'
+    elif income_value == 0 and expenses_value == 0:
+        return empty_output_message()
+
     if request_data['kind'] == 'Доходы':
         for el in sorted_data:
             for key, value in income_dict.items():
@@ -93,7 +100,7 @@ def statistic_message(sorted_data, request_data):
         for key, value in income_dict.items():
             if value:
                 result += (
-                    f'👉 {key} - {value} руб.\n'
+                    f'👉 {key} - {(value):.2f} руб.\n'
                 )
 
         return result
@@ -113,7 +120,7 @@ def statistic_message(sorted_data, request_data):
         for key, value in expenses_dict.items():
             if value:
                 result += (
-                    f'👉 {key} - {value} руб.\n'
+                    f'👉 {key} - {(value):.2f} руб.\n'
                 )
 
         return result
@@ -122,8 +129,8 @@ def statistic_message(sorted_data, request_data):
         return (
             f"📊 За период {request_data['date_start']}"
             f" - {request_data['date_end']}:\n\n"
-            f"👉 Доходы - {income_value} руб.;\n"
-            f"👉 Расходы - {expenses_value} руб.;\n"
-            f"👉 Разница - {income_value - expenses_value} руб.;\n"
+            f"👉 Доходы - {(income_value):.2f} руб.;\n"
+            f"👉 Расходы - {(expenses_value):.2f} руб.;\n"
+            f"👉 Разница - {(income_value - expenses_value):.2f} руб.;\n"
             f"👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n"
         )
