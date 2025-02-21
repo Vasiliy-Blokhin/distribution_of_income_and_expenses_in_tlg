@@ -169,9 +169,9 @@ async def input_confirm(callback: types.CallbackQuery, state: FSMContext):
                 'value': float(data['value'])
             }
         ]
-        await callback.message.answer('🟢 Данные внесены.')
         sql.append_data(
             table=MainTable,
             data=in_data
         )
+        await callback.message.answer('🟢 Данные внесены.')
         await state.clear()
