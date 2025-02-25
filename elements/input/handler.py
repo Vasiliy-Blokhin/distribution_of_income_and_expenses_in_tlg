@@ -70,6 +70,7 @@ async def input(message: types.Message):
 
 @input_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'idate')
 async def create_date(callback: types.CallbackQuery, state: FSMContext):
+    await state.clear()
     await state.set_state(InputData.date)
     if callback.data.split(SPLIT_SYM)[1] == 'date':
         await callback.message.answer('📝 Введите дату:')

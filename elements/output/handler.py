@@ -45,6 +45,7 @@ async def output(message: types.Message):
 
 @output_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'odate')
 async def dates_variator(callback: types.CallbackQuery, state: FSMContext):
+    await state.clear()
     await state.set_state(OutputData.date_start)
     command = callback.data.split(SPLIT_SYM)
     current_date = get_current_date_str()

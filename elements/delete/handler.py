@@ -39,6 +39,7 @@ class DeleteData(StatesGroup):
 @delete_router.message(Command('удалить'))
 async def output(message: types.Message, state: FSMContext):
     """ Вывод сообщения - общей информации."""
+    await state.clear()
     await message.answer(
         (
             '📝 Выберите ID вашей операции:\n'
