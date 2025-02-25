@@ -69,74 +69,92 @@ def result_input_message(date, kind, category, value, user_id):
 def statistic_message(sorted_data, request_data):
     income_value = 0
     expenses_value = 0
-    income_dict = CATEGORY_INCOME_DICT
-    expenses_dict = CATEGORY_EXPENSES_DICT
+    income_dict = {
+        'Зарплата': 0,
+        'Купонный доход': 0,
+        'Дивиденды': 0,
+        'Проценты вклада': 0,
+        'Репетиторство': 0,
+        'Сделка': 0,
+        'Репетиторство': 0,
+        'Перевод': 0,
+        'Разовая выплата': 0,
+        'Другие доходы': 0,
+    }
+    expenses_dict = {
+        'ЖКХ': 0,
+        'Интернет': 0,
+        'Связь': 0,
+        'Подписка': 0,
+        'Еда': 0,
+        'Хоз.товар': 0,
+        'Озон/ВБ/Али': 0,
+        'Здоровье': 0,
+        'Ребенок': 0,
+        'Перевод': 0,
+        'Сделка': 0,
+        'Другие расходы': 0,
+    }
 
-    try:
+    for el in sorted_data:
+        if el['kind'] == 'Доходы':
+            income_value += el['value']
+        elif el['kind'] == 'Расходы':
+            expenses_value += el['value']
+
+    if income_value == 0 and request_data['kind'] == 'Доходы':
+        return '🔴 У вас нет зарегистрированных доходов.'
+    elif expenses_value == 0 and request_data['kind'] == 'Расходы':
+        return '🔴 У вас нет зарегистрированных расходов.'
+    elif income_value == 0 and expenses_value == 0:
+        return empty_output_message()
+
+    if request_data['kind'] == 'Доходы':
         for el in sorted_data:
-            if el['kind'] == 'Доходы':
-                income_value += el['value']
-            elif el['kind'] == 'Расходы':
-                expenses_value += el['value']
-
-        if income_value == 0 and request_data['kind'] == 'Доходы':
-            return '🔴 У вас нет зарегистрированных доходов.'
-        elif expenses_value == 0 and request_data['kind'] == 'Расходы':
-            return '🔴 У вас нет зарегистрированных расходов.'
-        elif income_value == 0 and expenses_value == 0:
-            return empty_output_message()
-
-        if request_data['kind'] == 'Доходы':
-            for el in sorted_data:
-                for key, value in income_dict.items():
-                    if el['category'] == key:
-                        value += el['value']
-                    income_dict[key] = value
-
-            result = (
-                f"📊 Доходы за период {request_data['date_start']}"
-                f" - {request_data['date_end']}: "
-                f"{income_value:.2f} руб.\n\n"
-            )
             for key, value in income_dict.items():
-                if value:
-                    result += (
-                        f'👉 {key} - {(value):.2f} руб.\n'
-                    )
+                if el['category'] == key:
+                    value += el['value']
+                income_dict[key] = value
 
-            return result
+        result = (
+            f"📊 Доходы за период {request_data['date_start']}"
+            f" - {request_data['date_end']}: "
+            f"{income_value:.2f} руб.\n\n"
+        )
+        for key, value in income_dict.items():
+            if value:
+                result += (
+                    f'👉 {key} - {(value):.2f} руб.\n'
+                )
 
-        elif request_data['kind'] == 'Расходы':
-            for el in sorted_data:
-                for key, value in expenses_dict.items():
-                    if el['category'] == key:
-                        value += el['value']
-                    expenses_dict[key] = value
+        return result
 
-            result = (
-                f"📊 Расходы за период {request_data['date_start']}"
-                f" - {request_data['date_end']}: "
-                f"{expenses_value:.2f} руб.\n\n"
-            )
+    elif request_data['kind'] == 'Расходы':
+        for el in sorted_data:
             for key, value in expenses_dict.items():
-                if value:
-                    result += (
-                        f'👉 {key} - {(value):.2f} руб.\n'
-                    )
+                if el['category'] == key:
+                    value += el['value']
+                expenses_dict[key] = value
 
-            return result
+        result = (
+            f"📊 Расходы за период {request_data['date_start']}"
+            f" - {request_data['date_end']}: "
+            f"{expenses_value:.2f} руб.\n\n"
+        )
+        for key, value in expenses_dict.items():
+            if value:
+                result += (
+                    f'👉 {key} - {(value):.2f} руб.\n'
+                )
 
-        elif request_data['kind'] == 'Все':
-            return (
-                f"📊 За период {request_data['date_start']}"
-                f" - {request_data['date_end']}:\n\n"
-                f"👉 Доходы - {(income_value):.2f} руб.;\n"
-                f"👉 Расходы - {(expenses_value):.2f} руб.;\n"
-                f"👉 Разница - {(income_value - expenses_value):.2f} руб.;\n"
-                f"👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n"
-            )
-    finally:
-        income_value = 0
-        expenses_value = 0
-        income_dict = CATEGORY_INCOME_DICT
-        expenses_dict = CATEGORY_EXPENSES_DICT
+        return result
+
+    elif request_data['kind'] == 'Все':
+        return (
+            f"📊 За период {request_data['date_start']}"
+            f" - {request_data['date_end']}:\n\n"
+            f"👉 Доходы - {(income_value):.2f} руб.;\n"
+            f"👉 Расходы - {(expenses_value):.2f} руб.;\n"
+            f"👉 Разница - {(income_value - expenses_value):.2f} руб.;\n"
+            f"👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n"
+        )
