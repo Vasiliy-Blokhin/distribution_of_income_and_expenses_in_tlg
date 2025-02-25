@@ -62,7 +62,7 @@ def result_input_message(date, kind, category, value, user_id):
         f"👉 Дата операции: {date}\n"
         f"👉 Тип операции: {kind}\n"
         f"👉 Категория операции: {category}\n"
-        f"👉 Сумма: {value}\n"
+        f"👉 Сумма: {value:.2f}\n"
     )
 
 
@@ -95,7 +95,7 @@ def statistic_message(sorted_data, request_data):
         result = (
             f"📊 Доходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{income_value} руб.\n\n"
+            f"{income_value:.2f} руб.\n\n"
         )
         for key, value in income_dict.items():
             if value:
@@ -115,7 +115,7 @@ def statistic_message(sorted_data, request_data):
         result = (
             f"📊 Расходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{expenses_value} руб.\n\n"
+            f"{expenses_value:.2f} руб.\n\n"
         )
         for key, value in expenses_dict.items():
             if value:
