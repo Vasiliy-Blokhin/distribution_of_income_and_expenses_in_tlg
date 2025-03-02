@@ -33,6 +33,7 @@ async def info(message: types.Message):
 
 @info_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'info')
 async def choose_info(callback: types.CallbackQuery, state: FSMContext):
+    await state.clear()
     command = callback.data.split(SPLIT_SYM)[1]
     if command == 'О проекте':
         await callback.message.answer(about_project())
@@ -66,8 +67,9 @@ async def send_text(message: types.Message, state: FSMContext):
 async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext):
     try:
         if callback.data.split(SPLIT_SYM)[1] == 'Да':
+            data = await state.get_data()
             await Notification.send_message(
-                text=await state.get_data()['text']
+                text=data['text']
             )
             await callback.message.answer('🟢 Отправлено.')
         else:
