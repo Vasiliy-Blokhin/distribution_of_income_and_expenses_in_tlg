@@ -5,7 +5,7 @@ import sys
 
 from aiogram import Bot, Dispatcher
 
-from source.settings.settings import TOKEN, handler
+from source.settings.settings import TOKEN
 from source.sql.main import SQLmain as sql
 from elements import (
     input_router,
@@ -13,11 +13,6 @@ from elements import (
     delete_router,
     info_router
 )
-
-
-logger = logging.getLogger(name=__name__)  # Запуск логга проекта.
-logger.setLevel(logging.DEBUG)
-logger.addHandler(handler)
 
 
 async def main() -> None:
