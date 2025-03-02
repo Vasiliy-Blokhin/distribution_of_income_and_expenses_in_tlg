@@ -154,9 +154,9 @@ def support_project():
     )
 
 
-def send_message_choose(user_id, username, name, last_name, text):
+def send_message_choose():
     return (
-        ''
+        'Напишите сообщение:'
     )
 
 
