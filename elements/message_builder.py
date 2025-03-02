@@ -194,17 +194,22 @@ def about_author():
 
 def support_project():
     return (
-        '📊 Поддержать проект:\n\n'
-        '    • Кошелек TON:\n'
-        'UQD68V3nEXGjaoAK5B9ANCzQdgKhue9e-hXnXlerYUon1Dix\n'
-        '    • Монеты BTC:\n'
-        '1EZRKGoRJB2AmQnHQKLeD857juYmt2Rrbv\n'
-        '    • USDT в TRC20:\n'
-        'TLChT93rWmr3gRmJT5ffHRhH1Sy7881D1z\n'
-        '\n🎯 Ваша поддержка даст мотивацию для дальнейшей работы.\n'
+        '🎯 Ваша поддержка даст мотивацию для дальнейшей работы.\n'
         '📢 Не забывайте делиться своими мыслями и идеями: "Информация" - '
         '“Отправить сообщение автору”'
     )
+
+
+def support_TON():
+    return 'UQD68V3nEXGjaoAK5B9ANCzQdgKhue9e-hXnXlerYUon1Dix'
+
+
+def support_BTC():
+    return '1EZRKGoRJB2AmQnHQKLeD857juYmt2Rrbv'
+
+
+def support_USDT():
+    return 'TLChT93rWmr3gRmJT5ffHRhH1Sy7881D1z'
 
 
 def send_message_choose():

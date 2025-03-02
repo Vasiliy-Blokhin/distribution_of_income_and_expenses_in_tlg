@@ -9,7 +9,10 @@ from elements.message_builder import (
     support_project,
     send_message_author,
     send_message_choose,
-    error_message
+    error_message,
+    support_BTC,
+    support_TON,
+    support_USDT
 )
 from elements.keyboard import info_builder, inform_confirm_builder
 from elements.notification_bot.worker import Notification
@@ -41,6 +44,12 @@ async def choose_info(callback: types.CallbackQuery, state: FSMContext):
     elif command == 'О себе':
         await callback.message.answer(about_author())
     elif command == 'Поддержать':
+        await callback.message.answer('• Кошелек TON:')
+        await callback.message.answer(support_TON())
+        await callback.message.answer('• Монеты BTC:')
+        await callback.message.answer(support_BTC())
+        await callback.message.answer('• USDT в TRC20:')
+        await callback.message.answer(support_USDT())
         await callback.message.answer(support_project())
     elif command == 'Отправить сообщение автору':
         await state.set_state(InfoData.text)
