@@ -12,4 +12,4 @@ class Notification():
     async def send_message(self, text):
         message = START_MESSAGE + text
         url = TELEGRAM_URL + message
-        await requests.get(url)
+        requests.get(url)
