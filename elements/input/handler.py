@@ -56,6 +56,7 @@ async def command_start_handler(message: Message) -> None:
     builder.add(
         types.KeyboardButton(text='/информация',)
     )
+    builder.adjust(2)
     await message.answer(  # Сообщение старт.
         start_message(message.from_user.first_name),
         reply_markup=builder.as_markup(resize_keyboard=True),
