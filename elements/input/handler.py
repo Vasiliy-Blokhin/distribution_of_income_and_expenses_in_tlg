@@ -18,7 +18,8 @@ from elements.keyboard import (
     income_category_builder,
     expenses_category_builder,
     input_date_builder,
-    input_confirm_builder
+    input_confirm_builder,
+    info_builder
 )
 from elements.module import get_current_date_str
 from elements.validators import date_validator
@@ -60,6 +61,10 @@ async def command_start_handler(message: Message) -> None:
     await message.answer(  # Сообщение старт.
         start_message(message.from_user.first_name),
         reply_markup=builder.as_markup(resize_keyboard=True),
+    )
+    await message.answer(
+        '📝 Ознакомтесь с инфомрацией: ',
+        reply_markup=info_builder().as_markup()
     )
 
 # ________________________________________________________________
