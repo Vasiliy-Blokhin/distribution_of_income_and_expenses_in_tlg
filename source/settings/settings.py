@@ -2,15 +2,7 @@ from os import getenv
 import sys
 
 from dotenv import load_dotenv
-import logging
 
-
-# Описание хандлера для логгера.
-handler = logging.StreamHandler(sys.stdout)
-formater = logging.Formatter(
-    '%(name)s, %(funcName)s, %(asctime)s, %(levelname)s - %(message)s.'
-)
-handler.setFormatter(formater)
 
 load_dotenv()
 TOKEN = getenv('BOT_TOKEN')
@@ -22,11 +14,9 @@ TELEGRAM_URL = (
     f'{TLG_NOTICE_TOKEN}/sendMessage?chat_id='
     f'{TLG_NOTICE_CHAT_ID}&text='
 )
-START_MESSAGE = '---Project: distribution_of_income_and_expenses_in_tlg---\n'
+START_MESSAGE = '---Project: budget_tlg---\n'
 
 BASE_DIR = getenv('BASE_DIR')
-
-SPLIT_SYM = '-'
 
 db_connector = getenv('db_connector')
 db_login = getenv('db_login')
@@ -77,4 +67,3 @@ CATEGORY_EXPENSES_DICT = {
     'Сделка': 0,
     'Другие расходы': 0,
 }
-

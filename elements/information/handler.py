@@ -59,7 +59,7 @@ async def send_text(message: types.Message, state: FSMContext):
     )
     await state.update_data(text=text)
     await message.answer(
-        'Отправлять?\n\n' + text,
+        '📊 Отправлять?\n\n' + text,
         reply_markup=inform_confirm_builder().as_markup()
     )
 
@@ -77,6 +77,6 @@ async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext)
             await callback.message.answer('🔴 Отменено.')
     except Exception:
         await callback.message.answer(error_message())
-        await state.clear() 
+        await state.clear()
     finally:
         await state.clear()

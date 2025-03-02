@@ -138,32 +138,32 @@ async def statistic_message(sorted_data, request_data):
 
 def about_project():
     return (
-        ''
+        '📊 О проекте:\n\n'
     )
 
 
 def about_author():
     return (
-        ''
+        '📊 О себе:\n\n'
     )
 
 
 def support_project():
     return (
-        ''
+        '📊 Поддержать проект:\n\n'
     )
 
 
 def send_message_choose():
     return (
-        'Напишите сообщение:'
+        '📝 Напишите сообщение:'
     )
 
 
 def send_message_author(user_id, username, name, text):
     return (
-        f'ID пользователя: {user_id}\n'
-        f'Имя пользователя: {username}\n'
-        f'Полное имя: {name}\n'
-        f'Текст: {text}'
+        f'👉 ID пользователя: {user_id}\n'
+        f'👉 Имя пользователя: {username}\n'
+        f'👉 Полное имя: {name}\n'
+        f'👉 Текст: "{text}"'
     )
