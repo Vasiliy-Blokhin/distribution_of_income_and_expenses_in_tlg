@@ -48,8 +48,9 @@ async def choose_info(callback: types.CallbackQuery, state: FSMContext):
 @info_router.message(InfoData.text)
 async def send_text(message: types.Message, state: FSMContext):
     await state.update_data(text=message.text)
+    data = await state.get_data()
     text = await send_message_author(
-        text=await state.get_data()['text'],
+        text=data['text'],
         user_id=message.from_user.id,
         username=message.from_user.username,
         name=message.from_user.full_name
