@@ -69,11 +69,6 @@ class SQLmain:
     @classmethod
     def get_data_on_id(self, table, id):
         with Session(bind=main_engine) as s:
-            print(*self.correct_data_in_dict(data=s.execute(
-                sa.select('*').select_from(table).where(
-                    table.id == id
-                )
-            )))
 
             return self.correct_data_in_dict(data=s.execute(
                 sa.select('*').select_from(table).where(
