@@ -66,35 +66,11 @@ def result_input_message(date, kind, category, value, user_id):
     )
 
 
-def statistic_message(sorted_data, request_data):
+async def statistic_message(sorted_data, request_data):
     income_value = 0
     expenses_value = 0
-    income_dict = {
-        'Зарплата': 0,
-        'Купонный доход': 0,
-        'Дивиденды': 0,
-        'Проценты вклада': 0,
-        'Репетиторство': 0,
-        'Сделка': 0,
-        'Репетиторство': 0,
-        'Перевод': 0,
-        'Разовая выплата': 0,
-        'Другие доходы': 0,
-    }
-    expenses_dict = {
-        'ЖКХ': 0,
-        'Интернет': 0,
-        'Связь': 0,
-        'Подписка': 0,
-        'Еда': 0,
-        'Хоз.товар': 0,
-        'Озон/ВБ/Али': 0,
-        'Здоровье': 0,
-        'Ребенок': 0,
-        'Перевод': 0,
-        'Сделка': 0,
-        'Другие расходы': 0,
-    }
+    income_dict = CATEGORY_INCOME_DICT.copy()
+    expenses_dict = CATEGORY_EXPENSES_DICT.copy()
 
     for el in sorted_data:
         if el['kind'] == 'Доходы':

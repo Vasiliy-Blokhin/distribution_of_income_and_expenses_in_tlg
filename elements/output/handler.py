@@ -141,7 +141,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
         user_id=str(callback.from_user.id)
     )
     sorted_data = sort_data(request_data, user_data)
-    await callback.message.answer(statistic_message(
+    await callback.message.answer(await statistic_message(
         sorted_data,
         request_data
     ))
