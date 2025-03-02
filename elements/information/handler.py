@@ -49,7 +49,7 @@ async def choose_info(callback: types.CallbackQuery, state: FSMContext):
 async def send_text(message: types.Message, state: FSMContext):
     await state.update_data(text=message.text)
     data = await state.get_data()
-    text = await send_message_author(
+    text = send_message_author(
         text=data['text'],
         user_id=message.from_user.id,
         username=message.from_user.username,
