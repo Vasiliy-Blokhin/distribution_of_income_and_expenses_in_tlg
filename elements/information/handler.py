@@ -56,7 +56,10 @@ async def send_text(message: types.Message, state: FSMContext):
         name=message.from_user.full_name
     )
     await state.update_data(text=text)
-    await message.answer('Отправлять?\n\n' + text)
+    await message.answer(
+        'Отправлять?\n\n' + text,
+        reply_markup=inform_confirm_builder().as_markup()
+    )
 
 
 @info_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'infconfirm')
