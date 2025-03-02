@@ -134,3 +134,36 @@ async def statistic_message(sorted_data, request_data):
             f"👉 Разница - {(income_value - expenses_value):.2f} руб.;\n"
             f"👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n"
         )
+
+
+def about_project():
+    return (
+        ''
+    )
+
+
+def about_author():
+    return (
+        ''
+    )
+
+
+def support_project():
+    return (
+        ''
+    )
+
+
+def send_message_choose(user_id, username, name, last_name, text):
+    return (
+        ''
+    )
+
+
+def send_message_author(user_id, username, name, text):
+    return (
+        f'ID пользователя: {user_id}\n'
+        f'Имя пользователя: {username}\n'
+        f'Полное имя: {name}\n'
+        f'Текст: {text}'
+    )

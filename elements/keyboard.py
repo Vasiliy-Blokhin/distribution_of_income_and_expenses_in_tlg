@@ -159,3 +159,51 @@ def output_confirm_builder():
         )
     )
     return builder
+
+
+def inform_confirm_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Да',
+            callback_data='infconfirm' + SPLIT_SYM + 'Да'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Нет',
+            callback_data='infconfirm' + SPLIT_SYM + 'Нет'
+        )
+    )
+    return builder
+
+
+def info_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='О проекте',
+            callback_data='info' + SPLIT_SYM + 'О проекте'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='О себе',
+            callback_data='info' + SPLIT_SYM + 'О себе'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Поддержать',
+            callback_data='info' + SPLIT_SYM + 'Поддержать'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Отправить сообщение автору',
+            callback_data='info' + SPLIT_SYM + 'Отправить сообщение автору'
+        )
+    )
+    return builder

@@ -15,6 +15,15 @@ handler.setFormatter(formater)
 load_dotenv()
 TOKEN = getenv('BOT_TOKEN')
 
+TLG_NOTICE_TOKEN = getenv('TLG_NOTICE_TOKEN')
+TLG_NOTICE_CHAT_ID = getenv('TLG_NOTICE_CHAT_ID')
+TELEGRAM_URL = (
+    'https://api.telegram.org/bot'
+    f'{TLG_NOTICE_TOKEN}/sendMessage?chat_id='
+    f'{TLG_NOTICE_CHAT_ID}&text='
+)
+START_MESSAGE = '---Project: distribution_of_income_and_expenses_in_tlg---\n'
+
 BASE_DIR = getenv('BASE_DIR')
 
 SPLIT_SYM = '-'
@@ -68,3 +77,4 @@ CATEGORY_EXPENSES_DICT = {
     'Сделка': 0,
     'Другие расходы': 0,
 }
+
