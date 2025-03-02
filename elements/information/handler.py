@@ -8,7 +8,8 @@ from elements.message_builder import (
     about_project,
     support_project,
     send_message_author,
-    send_message_choose
+    send_message_choose,
+    error_message
 )
 from elements.keyboard import info_builder, inform_confirm_builder
 from elements.notification_bot.worker import Notification
@@ -74,5 +75,8 @@ async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext)
             await callback.message.answer('🟢 Отправлено.')
         else:
             await callback.message.answer('🔴 Отменено.')
+    except Exception:
+        await callback.message.answer(error_message())
+        await state.clear() 
     finally:
         await state.clear()
