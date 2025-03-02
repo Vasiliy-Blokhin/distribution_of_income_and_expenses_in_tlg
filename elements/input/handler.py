@@ -63,7 +63,7 @@ async def command_start_handler(message: Message) -> None:
         reply_markup=builder.as_markup(resize_keyboard=True),
     )
     await message.answer(
-        '📝 Ознакомтесь с инфомрацией: ',
+        '📝 Ознакомтесь с информацией: ',
         reply_markup=info_builder().as_markup()
     )
 
