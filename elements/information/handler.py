@@ -14,7 +14,7 @@ from elements.message_builder import (
     support_TON,
     support_USDT
 )
-from elements.keyboard import info_builder, inform_confirm_builder
+from elements.keyboard import info_builder, confirm_builder
 from elements.notification_bot.worker import Notification
 from source.settings.settings import SPLIT_SYM
 
@@ -69,7 +69,7 @@ async def send_text(message: types.Message, state: FSMContext):
     await state.update_data(text=text)
     await message.answer(
         '📊 Отправлять?\n\n' + text,
-        reply_markup=inform_confirm_builder().as_markup()
+        reply_markup=confirm_builder('infconfirm').as_markup()
     )
 
 

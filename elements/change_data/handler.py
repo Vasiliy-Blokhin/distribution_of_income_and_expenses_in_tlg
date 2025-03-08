@@ -22,7 +22,7 @@ from elements.keyboard import (
     change_types_builder,
     income_category_builder,
     expenses_category_builder,
-    confirm_in_change_builder
+    confirm_builder
 
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
@@ -121,12 +121,12 @@ async def choose_types(callback: types.CallbackQuery, state: FSMContext):
         if data['kind'] == 'Доходы':
             await callback.message.answer(
                 '📝 Выберите категорию операции: ',
-                reply_markup=income_category_builder().as_markup()
+                reply_markup=income_category_builder('ccategory').as_markup()
             )
         else:
             await callback.message.answer(
                 '📝 Выберите категорию операции: ',
-                reply_markup=expenses_category_builder().as_markup()
+                reply_markup=expenses_category_builder('ccategory').as_markup()
             )
 
     elif callback.data.split(SPLIT_SYM)[1] == 'value':
@@ -146,18 +146,18 @@ async def input_date(message: types.Message, state: FSMContext):
 
         await message.answer(
             'Закончили изменения?',
-            reply_markup=confirm_in_change_builder().as_markup()
+            reply_markup=confirm_builder('cconfirm').as_markup()
         )
     except Exception:
         await message.answer(error_message())
 
 
-@change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
+@change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'ccategory')
 async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     await callback.message.answer(
         'Закончили изменения?',
-        reply_markup=confirm_in_change_builder().as_markup()
+        reply_markup=confirm_builder('cconfirm').as_markup()
     )
 
 
@@ -167,7 +167,7 @@ async def input_value(message: types.Message, state: FSMContext):
         await state.update_data(value=float(message.text))
         await message.answer(
             'Закончили изменения?',
-            reply_markup=confirm_in_change_builder().as_markup()
+            reply_markup=confirm_builder('cconfirm').as_markup()
         )
     except Exception:
         await message.answer(error_message())

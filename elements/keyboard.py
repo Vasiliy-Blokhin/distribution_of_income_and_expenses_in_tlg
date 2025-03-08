@@ -8,26 +8,30 @@ from source.settings.settings import (
 )
 
 
-def income_category_builder() -> InlineKeyboardBuilder:
+def income_category_builder(callback) -> InlineKeyboardBuilder:
+    if callback is None:
+        callback = 'category'
     builder = InlineKeyboardBuilder()
     for key in CATEGORY_INCOME_DICT.keys():
         builder.add(
             types.InlineKeyboardButton(
                 text=key,
-                callback_data='category' + SPLIT_SYM + key
+                callback_data=callback + SPLIT_SYM + key
             )
         )
     builder.adjust(2)
     return builder
 
 
-def expenses_category_builder() -> InlineKeyboardBuilder:
+def expenses_category_builder(callback) -> InlineKeyboardBuilder:
+    if callback is None:
+        callback = 'category'
     builder = InlineKeyboardBuilder()
     for key in CATEGORY_EXPENSES_DICT.keys():
         builder.add(
             types.InlineKeyboardButton(
                 text=key,
-                callback_data='category' + SPLIT_SYM + key
+                callback_data=callback + SPLIT_SYM + key
             )
         )
     builder.adjust(2)
@@ -125,58 +129,27 @@ def output_date_builder() -> InlineKeyboardBuilder:
     return builder
 
 
-def input_confirm_builder():
+def confirm_builder(callback):
+    if callback is None:
+        callback = 'confirm'
+
     builder = InlineKeyboardBuilder()
 
     builder.row(
         types.InlineKeyboardButton(
             text='Да',
-            callback_data='iconfirm' + SPLIT_SYM + 'Да'
+            callback_data=callback + SPLIT_SYM + 'Да'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Нет',
-            callback_data='iconfirm' + SPLIT_SYM + 'Нет'
+            callback_data=callback + SPLIT_SYM + 'Нет'
         )
     )
     return builder
 
 
-def output_confirm_builder():
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Да',
-            callback_data='oconfirm' + SPLIT_SYM + 'Да'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Нет',
-            callback_data='oconfirm' + SPLIT_SYM + 'Нет'
-        )
-    )
-    return builder
-
-
-def inform_confirm_builder():
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Да',
-            callback_data='infconfirm' + SPLIT_SYM + 'Да'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Нет',
-            callback_data='infconfirm' + SPLIT_SYM + 'Нет'
-        )
-    )
-    return builder
 
 
 def info_builder():
@@ -246,24 +219,6 @@ def change_types_builder():
         types.InlineKeyboardButton(
             text='Сумма',
             callback_data='change_types' + SPLIT_SYM + 'value'
-        )
-    )
-    return builder
-
-
-def confirm_in_change_builder():
-    builder = InlineKeyboardBuilder()
-
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Да',
-            callback_data='cconfirm' + SPLIT_SYM + 'Да'
-        )
-    )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Нет',
-            callback_data='cconfirm' + SPLIT_SYM + 'Нет'
         )
     )
     return builder

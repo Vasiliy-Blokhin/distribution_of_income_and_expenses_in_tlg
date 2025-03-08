@@ -15,7 +15,7 @@ from elements.message_builder import (
 from elements.keyboard import (
     output_date_builder,
     output_kind_builder,
-    output_confirm_builder
+    confirm_builder
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator
@@ -147,7 +147,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     ))
     await callback.message.answer(
         '📝 Отправить эксель документ с данными операций?',
-        reply_markup=output_confirm_builder().as_markup()
+        reply_markup=confirm_builder('oconfirm').as_markup()
     )
 
 
