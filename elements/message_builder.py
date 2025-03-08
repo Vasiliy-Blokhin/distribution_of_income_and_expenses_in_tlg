@@ -142,7 +142,7 @@ def data_card(id, kind, category, value, date):
         f'👉 Дата - {date}\n'
         f'👉 Тип операции - {kind}\n'
         f'👉 Категория - {category}\n'
-        f'👉 Сумма - {value} .руб\n'
+        f'👉 Сумма - {value} руб.\n'
     )
 
 
