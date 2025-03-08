@@ -118,12 +118,12 @@ async def input_income(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'Доходы':
         await callback.message.answer(
             '📝 Выберите категорию операции: ',
-            reply_markup=income_category_builder().as_markup()
+            reply_markup=income_category_builder('category').as_markup()
         )
     else:
         await callback.message.answer(
             '📝 Выберите категорию операции: ',
-            reply_markup=expenses_category_builder().as_markup()
+            reply_markup=expenses_category_builder('category').as_markup()
         )
 
 
@@ -151,7 +151,7 @@ async def input_value(message: types.Message, state: FSMContext):
         )
         await message.answer(
             '📈 Подтвердите ввод данных:',
-            reply_markup=confirm_builder('iconfirm').as_markup()
+            reply_markup=confirm_builder('iconfirm', with_not=True).as_markup()
         )
     except Exception:
         await message.answer(error_message())

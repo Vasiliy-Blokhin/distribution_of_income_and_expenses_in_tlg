@@ -69,7 +69,7 @@ async def send_text(message: types.Message, state: FSMContext):
     await state.update_data(text=text)
     await message.answer(
         '📊 Отправлять?\n\n' + text,
-        reply_markup=confirm_builder('infconfirm').as_markup()
+        reply_markup=confirm_builder('infconfirm', with_not=True).as_markup()
     )
 
 

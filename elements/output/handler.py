@@ -147,7 +147,7 @@ async def result(callback: types.CallbackQuery, state: FSMContext):
     ))
     await callback.message.answer(
         '📝 Отправить эксель документ с данными операций?',
-        reply_markup=confirm_builder('oconfirm').as_markup()
+        reply_markup=confirm_builder('oconfirm', True).as_markup()
     )
 
 
