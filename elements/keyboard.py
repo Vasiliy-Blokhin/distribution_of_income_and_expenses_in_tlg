@@ -215,13 +215,13 @@ def change_builder():
     builder.row(
         types.InlineKeyboardButton(
             text='Изменить данные',
-            callback_data='change' + SPLIT_SYM + 'delete'
+            callback_data='change' + SPLIT_SYM + 'change'
         )
     )
     builder.row(
         types.InlineKeyboardButton(
             text='Удалить данные',
-            callback_data='change' + SPLIT_SYM + 'change'
+            callback_data='change' + SPLIT_SYM + 'delete'
         )
     )
     return builder
