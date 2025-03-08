@@ -193,10 +193,13 @@ async def prepare_to_end(callback: types.CallbackQuery, state: FSMContext):
 
 @change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'end_confirm')
 async def change_in_db(callback: types.CallbackQuery, state: FSMContext):
-    data = await state.get_data()
-    sql.change_data_on_id(
-        table=MainTable,
-        id=data['id'],
-        data=data
-    )
-    await callback.message.answer('🟢 Данные внесены.')
+    if callback.data.split(SPLIT_SYM)[1] == 'Да':
+        data = await state.get_data()
+        sql.change_data_on_id(
+            table=MainTable,
+            id=data['id'],
+            data=data
+        )
+        await callback.message.answer('🟢 Данные внесены.')
+    else:
+        await callback.message.answer('🔴 Отменено.')
