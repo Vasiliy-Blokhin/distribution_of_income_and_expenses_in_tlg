@@ -129,7 +129,9 @@ def output_date_builder() -> InlineKeyboardBuilder:
     return builder
 
 
-def confirm_builder(callback):
+def confirm_builder(callback, with_not):
+    if with_not is None:
+        with_not = True
     if callback is None:
         callback = 'confirm'
 
@@ -141,15 +143,14 @@ def confirm_builder(callback):
             callback_data=callback + SPLIT_SYM + 'Да'
         )
     )
-    builder.row(
-        types.InlineKeyboardButton(
-            text='Нет',
-            callback_data=callback + SPLIT_SYM + 'Нет'
+    if with_not:
+        builder.row(
+            types.InlineKeyboardButton(
+                text='Нет',
+                callback_data=callback + SPLIT_SYM + 'Нет'
+            )
         )
-    )
     return builder
-
-
 
 
 def info_builder():

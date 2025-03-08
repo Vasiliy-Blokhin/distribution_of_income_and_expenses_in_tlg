@@ -146,7 +146,7 @@ async def input_date(message: types.Message, state: FSMContext):
 
         await message.answer(
             'Закончили изменения?',
-            reply_markup=confirm_builder('cconfirm').as_markup()
+            reply_markup=confirm_builder('cconfirm', with_not=False).as_markup()
         )
     except Exception:
         await message.answer(error_message())
@@ -157,7 +157,7 @@ async def input_category(callback: types.CallbackQuery, state: FSMContext):
     await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
     await callback.message.answer(
         'Закончили изменения?',
-        reply_markup=confirm_builder('cconfirm').as_markup()
+        reply_markup=confirm_builder('cconfirm', with_not=False).as_markup()
     )
 
 
@@ -167,7 +167,7 @@ async def input_value(message: types.Message, state: FSMContext):
         await state.update_data(value=float(message.text))
         await message.answer(
             'Закончили изменения?',
-            reply_markup=confirm_builder('cconfirm').as_markup()
+            reply_markup=confirm_builder('cconfirm', with_not=False).as_markup()
         )
     except Exception:
         await message.answer(error_message())
@@ -185,5 +185,3 @@ async def prepare_to_end(callback: types.CallbackQuery, state: FSMContext):
             category=data['category'],
             value=data['value']
         ))
-    else:
-        await choose_types(callback, state)
