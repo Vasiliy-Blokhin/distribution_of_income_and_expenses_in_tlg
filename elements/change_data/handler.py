@@ -14,13 +14,15 @@ from elements.message_builder import (
     data_card,
     error_message,
     date_instr,
-    statistic_message
+    statistic_message,
+    value_instr
 )
 from elements.keyboard import (
     change_builder,
     change_types_builder,
     income_category_builder,
-    expenses_category_builder
+    expenses_category_builder,
+    confirm_in_change_builder
 
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
@@ -56,7 +58,7 @@ async def output(message: types.Message, state: FSMContext):
 
 
 @change_router.message(ChangeData.id)
-async def input_date(message: types.Message, state: FSMContext):
+async def input_id(message: types.Message, state: FSMContext):
     try:
         if await id_validator(int(message.text)):
             await state.update_data(id=message.text)
@@ -103,7 +105,7 @@ async def choose_del_or_change(callback: types.CallbackQuery, state: FSMContext)
         sql.delete_operation(table=MainTable, id=data['id'])
         await callback.message.answer('🟢 Удалено.')
     elif callback.data.split(SPLIT_SYM)[1] == 'change':
-        await callback.message.answer('Выберите:', change_types_builder().as_markup())
+        await callback.message.answer('Выберите:', reply_markup=change_types_builder().as_markup())
         await callback.message.answer('Можно выбирать несколько пунктов, по окончанию подтвердите.')
 
 
@@ -114,7 +116,74 @@ async def choose_types(callback: types.CallbackQuery, state: FSMContext):
         await callback.message.answer('📝 Введите дату:')
         await callback.message.answer(date_instr())
     elif callback.data.split(SPLIT_SYM)[1] == 'category':
-        await callback.message.answer(
-            '📝 Выберите категорию операции: ',
-            reply_markup=income_category_builder().as_markup()
+        data = await state.get_data()
+        await state.set_state(ChangeData.category)
+        if data['kind'] == 'Доходы':
+            await callback.message.answer(
+                '📝 Выберите категорию операции: ',
+                reply_markup=income_category_builder().as_markup()
+            )
+        else:
+            await callback.message.answer(
+                '📝 Выберите категорию операции: ',
+                reply_markup=expenses_category_builder().as_markup()
+            )
+
+    elif callback.data.split(SPLIT_SYM)[1] == 'value':
+        await state.set_state(ChangeData.value)
+        await callback.message.answer('📝 Введите сумму:')
+        await callback.message.answer(value_instr())
+
+
+@change_router.message(ChangeData.date)
+async def input_date(message: types.Message, state: FSMContext):
+    try:
+        if await date_validator(message.text):
+            await state.update_data(date=message.text)
+        else:
+            raise Exception
+        await state.update_data(date=message.text)
+
+        await message.answer(
+            'Закончили изменения?',
+            reply_markup=confirm_in_change_builder().as_markup()
         )
+    except Exception:
+        await message.answer(error_message())
+
+
+@change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'category')
+async def input_category(callback: types.CallbackQuery, state: FSMContext):
+    await state.update_data(category=callback.data.split(SPLIT_SYM)[1])
+    await callback.message.answer(
+        'Закончили изменения?',
+        reply_markup=confirm_in_change_builder().as_markup()
+    )
+
+
+@change_router.message(ChangeData.value)
+async def input_value(message: types.Message, state: FSMContext):
+    try:
+        await state.update_data(value=float(message.text))
+        await message.answer(
+            'Закончили изменения?',
+            reply_markup=confirm_in_change_builder().as_markup()
+        )
+    except Exception:
+        await message.answer(error_message())
+
+
+@change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'cconfirm')
+async def prepare_to_end(callback: types.CallbackQuery, state: FSMContext):
+    if callback.data.split(SPLIT_SYM)[1] == 'Да':
+        await callback.message.answer('Результат:')
+        data = await state.get_data()
+        await callback.message.answer(data_card(
+            id=data['id'],
+            date=data['date'],
+            kind=data['kind'],
+            category=data['category'],
+            value=data['value']
+        ))
+    else:
+        await choose_types(callback, state)

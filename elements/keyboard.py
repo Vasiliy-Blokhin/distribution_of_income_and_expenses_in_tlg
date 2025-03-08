@@ -249,3 +249,21 @@ def change_types_builder():
         )
     )
     return builder
+
+
+def confirm_in_change_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Да',
+            callback_data='cconfirm' + SPLIT_SYM + 'Да'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Нет',
+            callback_data='cconfirm' + SPLIT_SYM + 'Нет'
+        )
+    )
+    return builder
