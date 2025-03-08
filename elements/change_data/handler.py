@@ -187,7 +187,7 @@ async def prepare_to_end(callback: types.CallbackQuery, state: FSMContext):
         ))
         await callback.message.answer(
             'Изменяем данные?',
-            reply_markup=confirm_builder('end_confirm').as_markup()
+            reply_markup=confirm_builder('end_confirm', with_not=True).as_markup()
         )
 
 
