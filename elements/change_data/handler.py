@@ -18,6 +18,9 @@ from elements.message_builder import (
 )
 from elements.keyboard import (
     change_builder,
+    change_types_builder,
+    income_category_builder,
+    expenses_category_builder
 
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
@@ -30,8 +33,13 @@ from source.sql.tables import MainTable
 change_router = Router()
 
 
-class DeleteData(StatesGroup):
+class ChangeData(StatesGroup):
     id = State()
+    date = State()
+    kind = State()
+    category = State()
+    value = State()
+    user_id = State()
 
 
 @change_router.message(Command('изменить'))
@@ -44,10 +52,10 @@ async def output(message: types.Message, state: FSMContext):
             '* Указано в эксель таблицах.'
         ),
     )
-    await state.set_state(DeleteData.id)
+    await state.set_state(ChangeData.id)
 
 
-@change_router.message(DeleteData.id)
+@change_router.message(ChangeData.id)
 async def input_date(message: types.Message, state: FSMContext):
     try:
         if await id_validator(int(message.text)):
@@ -56,13 +64,25 @@ async def input_date(message: types.Message, state: FSMContext):
             raise Exception
 
         id = message.text
-        data = sql.get_data_on_id(table=MainTable, id=id)[0]
+        table_data = sql.get_data_on_id(table=MainTable, id=id)[0]
+
+        await state.update_data(
+            kind=table_data['kind'],
+            category=table_data['category'],
+            value=table_data['value'],
+            date=(
+                f"{table_data['day']}."
+                f"{table_data['month']}."
+                f"{table_data['year']}"
+            ),
+            user_id=table_data['user_id']
+        )
+        data = await state.get_data()
 
         if int(data['user_id']) == int(message.from_user.id):
-            date = f"{data['day']}.{data['month']}.{data['year']}"
             await message.answer(data_card(
                 id=id,
-                date=date,
+                date=data['date'],
                 kind=data['kind'],
                 category=data['category'],
                 value=data['value']
@@ -77,8 +97,24 @@ async def input_date(message: types.Message, state: FSMContext):
 
 
 @change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'change')
-async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext):
+async def choose_del_or_change(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'delete':
         data = await state.get_data()
         sql.delete_operation(table=MainTable, id=data['id'])
-        callback.message.answer('🟢 Удалено.')
+        await callback.message.answer('🟢 Удалено.')
+    elif callback.data.split(SPLIT_SYM)[1] == 'change':
+        await callback.message.answer('Выберите:', change_types_builder().as_markup())
+        await callback.message.answer('Можно выбирать несколько пунктов, по окончанию подтвердите.')
+
+
+@change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'change_types')
+async def choose_types(callback: types.CallbackQuery, state: FSMContext):
+    if callback.data.split(SPLIT_SYM)[1] == 'date':
+        await state.set_state(ChangeData.date)
+        await callback.message.answer('📝 Введите дату:')
+        await callback.message.answer(date_instr())
+    elif callback.data.split(SPLIT_SYM)[1] == 'category':
+        await callback.message.answer(
+            '📝 Выберите категорию операции: ',
+            reply_markup=income_category_builder().as_markup()
+        )

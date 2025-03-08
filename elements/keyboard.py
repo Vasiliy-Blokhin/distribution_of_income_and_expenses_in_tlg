@@ -225,3 +225,27 @@ def change_builder():
         )
     )
     return builder
+
+
+def change_types_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Дата',
+            callback_data='change_types' + SPLIT_SYM + 'date'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Категория',
+            callback_data='change_types' + SPLIT_SYM + 'category'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Сумма',
+            callback_data='change_types' + SPLIT_SYM + 'value'
+        )
+    )
+    return builder
