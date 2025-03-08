@@ -59,7 +59,9 @@ async def input_date(message: types.Message, state: FSMContext):
         data = sql.get_data_on_id(table=MainTable, id=id)[0]
 
         if int(data['user_id']) == int(message.from_user.id):
-            date = datetime.datetime.strptime(f"{data['day']}-{data['month']}-{data['year']}")
+            date = datetime.datetime.strptime(
+                f"{data['day']}-{data['month']}-{data['year']}", '%d.%m.%Y'
+            )
             await message.answer(data_card(
                 id=id,
                 date=date,
