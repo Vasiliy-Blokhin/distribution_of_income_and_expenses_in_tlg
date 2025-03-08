@@ -10,7 +10,7 @@ from source.sql.main import SQLmain as sql
 from elements import (
     input_router,
     output_router,
-    delete_router,
+    change_router,
     info_router
 )
 
@@ -22,7 +22,7 @@ async def main() -> None:
     dp.include_routers(
         input_router,
         output_router,
-        delete_router,
+        change_router,
         info_router
     )
     await dp.start_polling(bot)
