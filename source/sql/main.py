@@ -4,7 +4,7 @@ import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from source.sql.tables import Base
-from source.settings.settings import DB_URL
+from source.settings.settings import DB_URL, SPLIT_SYM
 
 
 load_dotenv()
@@ -75,6 +75,21 @@ class SQLmain:
                     table.id == id
                 )
             ))
+
+    @classmethod
+    def change_data_on_id(self, table, id, data):
+        with Session(bind=main_engine) as s:
+            entry = s.query(table).filter(table.id == id).first()
+            if entry:
+                date = data['date'].split(SPLIT_SYM)
+                entry.day = date[0]
+                entry.month = date[1]
+                entry.year = date[2]
+                entry.user_id = data['user_id']
+                entry.kind = data['kind']
+                entry.category = data['category']
+                entry.value = data['value']
+            s.commit()
 
     @classmethod
     def delete_operation(self, table, id):
