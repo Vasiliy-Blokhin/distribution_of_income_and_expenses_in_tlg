@@ -27,14 +27,14 @@ from source.sql.main import SQLmain as sql
 from source.sql.tables import MainTable
 
 
-delete_router = Router()
+change_router = Router()
 
 
 class DeleteData(StatesGroup):
     id = State()
 
 
-@delete_router.message(Command('изменить'))
+@change_router.message(Command('изменить'))
 async def output(message: types.Message, state: FSMContext):
     """ Вывод сообщения - общей информации."""
     await state.clear()
@@ -47,7 +47,7 @@ async def output(message: types.Message, state: FSMContext):
     await state.set_state(DeleteData.id)
 
 
-@delete_router.message(DeleteData.id)
+@change_router.message(DeleteData.id)
 async def input_date(message: types.Message, state: FSMContext):
     try:
         if await id_validator(int(message.text)):
