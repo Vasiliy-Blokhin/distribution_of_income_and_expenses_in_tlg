@@ -199,4 +199,4 @@ async def change_in_db(callback: types.CallbackQuery, state: FSMContext):
         id=data['id'],
         data=data
     )
-    callback.answer('🟢 Данные внесены.')
+    await callback.answer('🟢 Данные внесены.')
