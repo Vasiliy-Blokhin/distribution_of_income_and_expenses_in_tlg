@@ -59,7 +59,7 @@ async def input_date(message: types.Message, state: FSMContext):
         data = sql.get_data_on_id(table=MainTable, id=id)[0]
 
         if int(data['user_id']) == int(message.from_user.id):
-            date = f"{data['day']}.{data['month']}.{data['year']}"
+            date = datetime.datetime.strptime(f"{data['day']}-{data['month']}-{data['year']}")
             await message.answer(data_card(
                 id=id,
                 date=date,
@@ -74,3 +74,10 @@ async def input_date(message: types.Message, state: FSMContext):
 
     except Exception:
         await message.answer(error_message())
+
+
+@change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'change')
+async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext):
+    if callback.data.split(SPLIT_SYM)[1] == 'delete':
+        sql.delete_operation(table=MainTable, id=state.get_data()['id'])
+        callback.message.answer(text='🟢 Удалено.')
