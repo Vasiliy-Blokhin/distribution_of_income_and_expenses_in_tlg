@@ -80,5 +80,5 @@ async def input_date(message: types.Message, state: FSMContext):
 async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'delete':
         id = await state.get_data()['id']
-        sql.delete_operation(table=MainTable, id)
+        sql.delete_operation(table=MainTable, id=id)
         callback.message.answer(text='🟢 Удалено.')
