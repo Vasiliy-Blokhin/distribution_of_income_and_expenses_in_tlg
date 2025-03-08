@@ -79,6 +79,6 @@ async def input_date(message: types.Message, state: FSMContext):
 @change_router.callback_query(F.data.split(SPLIT_SYM)[0] == 'change')
 async def confirm_send_message(callback: types.CallbackQuery, state: FSMContext):
     if callback.data.split(SPLIT_SYM)[1] == 'delete':
-        id = await state.get_data()['id']
-        sql.delete_operation(table=MainTable, id=id)
+        data = await state.get_data()
+        sql.delete_operation(table=MainTable, id=data['id'])
         callback.message.answer(text='🟢 Удалено.')
