@@ -8,7 +8,7 @@ from source.settings.settings import (
 )
 
 
-def income_category_builder(callback) -> InlineKeyboardBuilder:
+def income_category_builder(callback: None) -> InlineKeyboardBuilder:
     if callback is None:
         callback = 'category'
     builder = InlineKeyboardBuilder()
@@ -23,7 +23,7 @@ def income_category_builder(callback) -> InlineKeyboardBuilder:
     return builder
 
 
-def expenses_category_builder(callback) -> InlineKeyboardBuilder:
+def expenses_category_builder(callback: None) -> InlineKeyboardBuilder:
     if callback is None:
         callback = 'category'
     builder = InlineKeyboardBuilder()
@@ -129,7 +129,7 @@ def output_date_builder() -> InlineKeyboardBuilder:
     return builder
 
 
-def confirm_builder(callback, with_not):
+def confirm_builder(callback: None, with_not: None):
     if with_not is None:
         with_not = True
     if callback is None:
