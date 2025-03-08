@@ -203,3 +203,5 @@ async def change_in_db(callback: types.CallbackQuery, state: FSMContext):
         await callback.message.answer('🟢 Данные внесены.')
     else:
         await callback.message.answer('🔴 Отменено.')
+
+    await state.clear()
