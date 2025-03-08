@@ -115,7 +115,7 @@ async def statistic_message(sorted_data, request_data):
         result = (
             f"📊 Расходы за период {request_data['date_start']}"
             f" - {request_data['date_end']}: "
-            f"{expenses_value:.2f} руб.\n\n"
+            f'{expenses_value:.2f} руб.\n\n'
         )
         for key, value in expenses_dict.items():
             if value:
@@ -129,11 +129,21 @@ async def statistic_message(sorted_data, request_data):
         return (
             f"📊 За период {request_data['date_start']}"
             f" - {request_data['date_end']}:\n\n"
-            f"👉 Доходы - {(income_value):.2f} руб.;\n"
-            f"👉 Расходы - {(expenses_value):.2f} руб.;\n"
-            f"👉 Разница - {(income_value - expenses_value):.2f} руб.;\n"
-            f"👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n"
+            f'👉 Доходы - {(income_value):.2f} руб.;\n'
+            f'👉 Расходы - {(expenses_value):.2f} руб.;\n'
+            f'👉 Разница - {(income_value - expenses_value):.2f} руб.;\n'
+            f'👉 Соотношение - {100 * (1 - expenses_value/income_value):.2f}%;\n'
         )
+
+
+def data_card(id, kind, category, value, date):
+    return (
+        f'👉 ID - {id}\n'
+        f'👉 Дата - {date}\n'
+        f'👉 Тип операции - {kind}\n'
+        f'👉 Категория - {category}\n'
+        f'👉 Сумма - {value} .руб\n'
+    )
 
 
 def about_project():

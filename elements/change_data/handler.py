@@ -11,16 +11,14 @@ from aiogram.fsm.context import FSMContext
 import datetime
 
 from elements.message_builder import (
-    start_message,
-    year_instr,
+    data_card,
     error_message,
     date_instr,
     statistic_message
 )
 from elements.keyboard import (
-    output_date_builder,
-    output_kind_builder,
-    output_confirm_builder
+    change_builder,
+
 )
 from elements.module import get_current_date_str, sort_data, generate_xlsx
 from elements.validators import date_validator, year_validator, id_validator
@@ -36,7 +34,7 @@ class DeleteData(StatesGroup):
     id = State()
 
 
-@delete_router.message(Command('удалить'))
+@delete_router.message(Command('изменить'))
 async def output(message: types.Message, state: FSMContext):
     """ Вывод сообщения - общей информации."""
     await state.clear()
@@ -58,13 +56,19 @@ async def input_date(message: types.Message, state: FSMContext):
             raise Exception
 
         id = message.text
-        operation = sql.get_data_on_id(
-            table=MainTable,
-            id=id
-        )[0]
-        if int(operation['user_id']) == int(message.from_user.id):
-            sql.delete_operation(table=MainTable, id=id)
-            await message.answer('🟢 Удалено')
+        data = sql.get_data_on_id(table=MainTable, id=id)[0]
+
+        if int(data['user_id']) == int(message.from_user.id):
+            date = f'{data['day']}.{data['month']}.{data['year']}'
+            await message.answer(data_card(
+                id=id,
+                date=date,
+                kind=data['kind'],
+                category=data['category'],
+                value=data['value']
+            ))
+            await message.answer('Выберите:', reply_markup=change_builder().as_markup())
+
         else:
             raise Exception
 

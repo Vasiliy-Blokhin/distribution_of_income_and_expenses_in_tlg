@@ -207,3 +207,21 @@ def info_builder():
         )
     )
     return builder
+
+
+def change_builder():
+    builder = InlineKeyboardBuilder()
+
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Изменить данные',
+            callback_data='change' + SPLIT_SYM + 'delete'
+        )
+    )
+    builder.row(
+        types.InlineKeyboardButton(
+            text='Удалить данные',
+            callback_data='change' + SPLIT_SYM + 'change'
+        )
+    )
+    return builder

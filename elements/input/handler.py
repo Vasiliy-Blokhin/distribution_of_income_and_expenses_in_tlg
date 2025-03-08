@@ -52,7 +52,7 @@ async def command_start_handler(message: Message) -> None:
         types.KeyboardButton(text='/вывод',)
     )
     builder.add(
-        types.KeyboardButton(text='/удалить',)
+        types.KeyboardButton(text='/изменить',)
     )
     builder.add(
         types.KeyboardButton(text='/информация',)
